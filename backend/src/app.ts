@@ -3,6 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
+import routes from './shared/router'
 
 const { port } = config
 const app = express()
@@ -13,9 +14,7 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
 
-app.get('/', (req, res) => {
-	res.send('hello world')
-})
+app.use('/api', routes)
 
 app.listen(port, () => {
 	console.log(`server listening on port ${port}`)
