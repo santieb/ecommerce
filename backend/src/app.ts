@@ -3,6 +3,7 @@ import express from 'express'
 import morgan from 'morgan'
 import cors from 'cors'
 import helmet from 'helmet'
+import healthcheck from './config/healthcheck'
 import routes from './shared/router'
 
 const { port } = config
@@ -14,6 +15,7 @@ app.use(helmet())
 app.use(morgan('dev'))
 app.use(express.json())
 
+app.use('/api', healthcheck)
 app.use('/api', routes)
 
 app.listen(port, () => {
