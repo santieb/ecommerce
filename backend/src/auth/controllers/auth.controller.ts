@@ -18,4 +18,21 @@ const registerUser = async ({ body }: Request, res: Response) => {
 	}
 }
 
-export default { registerUser }
+const loginUser = async ({ body }: Request, res: Response) => {
+	try {
+		const { email, password } = body
+		const response = await authService.loginUser({ email, password })
+
+		sucessResponse({
+			res,
+			status: 200,
+			message: 'user login success',
+			data: response.user,
+			token: response.token
+		})
+	} catch (err) {
+		res.status(400).send(err)
+	}
+}
+
+export default { registerUser, loginUser }
