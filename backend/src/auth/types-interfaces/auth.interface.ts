@@ -1,5 +1,4 @@
-export type User = {
-  name: string
+export interface Auth {
   email: string
   password: string
 }
