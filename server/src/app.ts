@@ -17,7 +17,6 @@ app.use(morgan('dev'))
 app.use('/api', healthcheck)
 app.use('/api', routes)
 
-
 app.listen(port, () => {
-	console.log(`server listening on port ${port}`)
+  console.log(`server listening on port ${port}`)
 })
