@@ -5,7 +5,6 @@ import cors from 'cors'
 import helmet from 'helmet'
 import healthcheck from './config/healthcheck'
 import routes from './shared/router'
-import path from 'path'
 
 const { port } = config
 const app = express()
@@ -14,12 +13,10 @@ app.use(express.json())
 app.use(cors())
 app.use(helmet())
 app.use(morgan('dev'))
-app.use(express.json())
 
 app.use('/api', healthcheck)
 app.use('/api', routes)
 
-
 app.listen(port, () => {
-	console.log(`server listening on port ${port}`)
+  console.log(`server listening on port ${port}`)
 })
