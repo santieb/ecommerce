@@ -19,3 +19,20 @@ model User {
   created_at DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+model Product {
+  id         String   @id @default(uuid())
+  name       String
+  price      String   @unique @db.VarChar(255)
+  category   Category? @relation(fields: [categoryId], references: [id])
+  categoryId String?
+  created_at DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Category {
+  id            String   @id @default(uuid())
+  categoryName  String   @unique
+  image         String?
+  operations    Product[]
+}
