@@ -6,6 +6,7 @@ import isAdmin from '../shared/middlewares/isAdmin'
 const router = express.Router()
 
 router
+  .get('/', categoryCtrl.getCategories)
   .post('/', isAuth, isAdmin, categoryCtrl.createCategory)
 
 export default router
