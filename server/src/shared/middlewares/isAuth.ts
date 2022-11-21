@@ -1,14 +1,9 @@
-import { Request, Response, NextFunction, } from 'express'
-import { JwtPayload, verify } from 'jsonwebtoken'
+import { Response, NextFunction, } from 'express'
+import { RequestExt } from '../types-interfaces/req'
+import { verify } from 'jsonwebtoken'
 import { config } from '../../config/index'
 import { ErrorObject } from '../helpers/error'
 const { secretKey } = config
-
-import {  } from 'jsonwebtoken'
-
-export interface RequestExt extends Request {
-  user?: string | JwtPayload
-}
 
 const isAuth = async (req: RequestExt, res: Response, next: NextFunction) => {
   try {
