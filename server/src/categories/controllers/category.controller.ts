@@ -36,4 +36,20 @@ const createCategory = async ({ body }: Request, res: Response) => {
   }
 }
 
-export default {  getCategories, createCategory }
+const deleteCategory = async ({ params }: Request, res: Response) => {
+  try {
+    const { categoryId } = params
+
+    await categoryService.deleteCategory(categoryId)
+
+    sucessResponse({
+      res,
+      status: 200,
+      message: 'Category deleted successfully'
+    })
+  } catch (err) {
+    res.status(400).send(err)
+  }
+}
+
+export default {  getCategories, createCategory, deleteCategory }
