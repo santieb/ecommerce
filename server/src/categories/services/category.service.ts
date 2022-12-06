@@ -14,4 +14,12 @@ const createCategory = async ({ categoryName, image }: Category) => {
   })
 }
 
-export default { getCategories, createCategory }
+const deleteCategory = async (categoryId: string) => {
+  return await db.category.delete({
+    where: {
+      id: categoryId,
+    },
+  })
+}
+
+export default { getCategories, createCategory, deleteCategory }
