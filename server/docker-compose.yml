@@ -6,7 +6,7 @@ services:
     container_name: ecommerce_pg
     restart: always
     environment:
-      POSTGRES_DB: ecommerce_db
+      POSTGRES_DB: ecommerce
       POSTGRES_USER: uecommerce
       POSTGRES_PASSWORD: secret1234
     volumes:
