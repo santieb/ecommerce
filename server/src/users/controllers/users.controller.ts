@@ -1,9 +1,10 @@
-import { Body, Controller, HttpException, Post } from '@nestjs/common';
+import { Body, Controller, HttpException, Post, Get, UseGuards } from '@nestjs/common';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { UsersService } from '../services/users.service';
 import * as bcrypt from 'bcrypt';
 import { UsersEntity } from '../entities/users.entity';
 import { LoginUserDto } from '../dto/loginUser.dto';
+import { JwtAuthGuard } from '../jwt.auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -22,5 +23,11 @@ export class UsersController {
   @Post('login')
   async loginUser(@Body() user: LoginUserDto) {
     return this.usersService.loginUser(user);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  allUsers() {
+    return this.usersService.allUsers();
   }
 }

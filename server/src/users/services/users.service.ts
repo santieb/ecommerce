@@ -43,4 +43,8 @@ export class UsersService {
     };
     return { userFound, token: this.jwtService.sign(payload) };
   }
+
+  async allUsers(): Promise<object | HttpException> {
+    return this.userRepository.find();
+  }
 }
