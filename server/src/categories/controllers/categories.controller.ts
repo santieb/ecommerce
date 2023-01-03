@@ -2,7 +2,9 @@ import {
   Controller,
   Post,
   Get,
+  Delete,
   Body,
+  Request,
   UseGuards,
   HttpException,
 } from '@nestjs/common';
@@ -15,6 +17,11 @@ import { CategoriesEntity } from '../entities/categories.entity';
 export class CategoriesController {
   constructor(private readonly categoriesService: CategoriesService) {}
 
+  @Get()
+  allCategories() {
+    return this.categoriesService.allCategories();
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post()
   async createCategory(
@@ -23,8 +30,9 @@ export class CategoriesController {
     return this.categoriesService.createCategory(newCategory);
   }
 
-  @Get()
-  allCategories() {
-    return this.categoriesService.allCategories();
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  deleteCategory(@Request() categoryId: string) {
+    return this.categoriesService.deleteCategory(categoryId);
   }
 }
