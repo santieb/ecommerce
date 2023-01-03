@@ -27,7 +27,7 @@ export class CategoriesService {
     return this.categoryRepository.save(newCategory);
   }
 
-  async deleteCategory(categoryId: string) {
+  async deleteCategory(categoryId: string): Promise<object | HttpException> {
     const categoryFound = await this.categoryRepository.findOneBy({
       id: categoryId,
     });
