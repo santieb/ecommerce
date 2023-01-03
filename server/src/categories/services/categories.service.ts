@@ -11,6 +11,10 @@ export class CategoriesService {
     private categoryRepository: Repository<CategoriesEntity>,
   ) {}
 
+  allCategories(): Promise<object | HttpException> {
+    return this.categoryRepository.find();
+  }
+
   async createCategory(category: CreateCategoryDto) {
     const categoryFound = await this.categoryRepository.findOne({
       where: { name: category.name },
@@ -23,7 +27,14 @@ export class CategoriesService {
     return this.categoryRepository.save(newCategory);
   }
 
-  allCategories(): Promise<object | HttpException> {
-    return this.categoryRepository.find();
+  async deleteCategory(categoryId: string) {
+    const categoryFound = await this.categoryRepository.findOneBy({
+      id: categoryId,
+    });
+
+    if (!categoryFound)
+      return new HttpException('Category not found', HttpStatus.NOT_FOUND);
+
+    return this.categoryRepository.remove(categoryFound);
   }
 }

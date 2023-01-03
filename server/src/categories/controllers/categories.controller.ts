@@ -4,7 +4,7 @@ import {
   Get,
   Delete,
   Body,
-  Request,
+  Param,
   UseGuards,
   HttpException,
 } from '@nestjs/common';
@@ -31,8 +31,8 @@ export class CategoriesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete()
-  deleteCategory(@Request() categoryId: string) {
-    return this.categoriesService.deleteCategory(categoryId);
+  @Delete(':id')
+  deleteCategory(@Param() params) {
+    return this.categoriesService.deleteCategory(params.categoryId);
   }
 }
