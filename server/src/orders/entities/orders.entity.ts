@@ -1,4 +1,4 @@
-import { UsersEntity } from 'src/users/entities/users.entity';
+import { UsersEntity } from '../../users/entities/users.entity';
 import { Column, Entity, OneToMany, ManyToOne } from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
 import { OrdersDetailsEntity } from './ordersDetails.entity';
