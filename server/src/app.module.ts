@@ -5,6 +5,7 @@ import { DataSourceConfig } from './config/data.source';
 import { ConfigModule } from '@nestjs/config';
 import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CategoriesModule } from './categories/categories.module';
     UsersModule,
     ProductsModule,
     CategoriesModule,
+    OrdersModule,
   ],
   providers: [],
 })
