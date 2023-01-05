@@ -5,6 +5,8 @@ import {
   Body,
   UseGuards,
   HttpException,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/createProduct.dto';
@@ -22,9 +24,15 @@ export class ProductsController {
 
   @UseGuards(JwtAuthGuard)
   @Post()
-  async createCategory(
+  async createProduct(
     @Body() newProduct: CreateProductDto,
   ): Promise<ProductsEntity | HttpException> {
     return this.productsService.createProduct(newProduct);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':productId')
+  deleteProduct(@Param() params) {
+    return this.productsService.deleteProduct(params.productId);
   }
 }

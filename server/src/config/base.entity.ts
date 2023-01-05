@@ -5,7 +5,7 @@ import {
 } from 'typeorm';
 
 export abstract class BaseEntity {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   id: string;
 
   @CreateDateColumn({
