@@ -13,6 +13,7 @@ export default function Home() {
 
   return (
     <main className="flex bg-red-50 w-full">
+
       <div className="w-2/12 h-screen">
         <div className="bg-white m-8 p-4 shadow-lg rounded-lg">
           <ListCategories/>
@@ -64,6 +65,7 @@ export default function Home() {
         <p></p>
       </div>
     </div>
+
     </main>
   )
 }

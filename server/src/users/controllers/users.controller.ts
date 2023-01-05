@@ -1,4 +1,11 @@
-import { Body, Controller, HttpException, Post, Get, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpException,
+  Post,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dto/createUser.dto';
 import { UsersService } from '../services/users.service';
 import * as bcrypt from 'bcrypt';
@@ -10,7 +17,7 @@ import { JwtAuthGuard } from '../jwt.auth.guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('register')
   async createUser(
     @Body() newUser: CreateUserDto,
   ): Promise<UsersEntity | HttpException> {
