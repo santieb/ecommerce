@@ -1,5 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { OrdersEntity } from '../../orders/entities/orders.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../config/base.entity';
+
 @Entity({ name: 'users' })
 export class UsersEntity extends BaseEntity {
   @Column()
@@ -13,4 +15,7 @@ export class UsersEntity extends BaseEntity {
 
   @Column({ default: false })
   isAdmin: boolean;
+
+  @OneToMany(() => OrdersEntity, (order) => order.user)
+  orders: OrdersEntity[];
 }

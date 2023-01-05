@@ -12,6 +12,7 @@ export default function Home() {
   }, []);
 
   return (
+
     <main className="flex  w-full">
       <div className="w-2/12 h-screen">
         <div className="bg-slate-200 m-4 p-4">
@@ -65,6 +66,7 @@ export default function Home() {
         <p></p>
       </div>
     </div>
+
     </main>
   )
 }
