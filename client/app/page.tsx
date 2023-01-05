@@ -1,6 +1,9 @@
 'use client'
 import { useEffect } from "react";
-import { BsCart4 } from 'react-icons/bs'
+import HorizontalProductCard from "../components/HorizontalProductCard";
+import ListCategories from "../components/ListCategories";
+import Modal from "../components/Modal";
+import ProductCard from "../components/ProductCard";
 
 export default function Home() {
 
@@ -9,122 +12,60 @@ export default function Home() {
   }, []);
 
   return (
-    <main >
-      <div className="fixed top-4 right-4">
-      <button className="inline text-orange-800 font-bold bg-orange-300 text-xl p-4">
-        ver carrito <BsCart4/>
-      </button>
+    <main className="flex bg-red-50 w-full">
+
+      <div className="w-2/12 h-screen">
+        <div className="bg-white m-8 p-4 shadow-lg rounded-lg">
+          <ListCategories/>
+        </div>
       </div>
-     <div className="w-full bg-orange-300 text-5xl">
-      <span className="text-orange-600">COFFE</span> 
-        <h1 className="text-white font-extrabold text-center uppercase">
-          La mejor comida casera
-          <br/>
-          <span className="text-orange-600">caseritos</span> 
-        </h1>
-        <button className="margin-auto rounded-md border border-transparent bg-white px-4 py-3 text-base font-medium text-orange-600 shadow-sm hover:bg-orange-100 sm:px-8">
-          Shop  
-        </button>
+
+     <section className="w-8/12 h-screen">
+     
+      <div className="py-4">
+        <h3 className="pb-4 text-2xl font-medium ">Productos Destacados</h3>
+        <div className="flex r gap-x-4 flex-wrap">
+          <ProductCard/>
+          <ProductCard/>
+          <ProductCard/>
+          <ProductCard/>
+          <ProductCard/>
+        </div>
+      </div>
+      <div className="py-4">
+        <h3 className=" pb-4 text-2xl font-medium ">Productos Destacados</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+        </div>
+      </div>
+
+      <div className="py-4">
+        <h3 className=" pb-4 text-2xl font-medium ">Bebidas</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+          <HorizontalProductCard/>
+        </div>
+      </div>
         
-     </div>
- 
-     <section className="max-w-6xl mx-auto ">
-      
-      <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-        <div className="bg-gray-100">
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-            
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-        <div>
-          <img alt="product image" src="https://marketing4ecommerce.net/wp-content/uploads/2018/01/Depositphotos_3667865_m-2015-compressor.jpg"/>
-          <div className="mt-4 flex items-center justify-between font-medium text-gray-900">
-            <h3>Ice Coffre</h3>
-            <p>$4.00</p>
-          </div>
-          <p>
-            descripcion de el cafe en cuestion
-          </p>
-        </div>
-      </div>
      </section>
-    
+    <div className="w-3/12 h-screen">
+      <div className=" bg-white m-8 p-4 shadow-lg rounded-lg">
+        Mi Pedido
+        <div className=" text-center">
+          <img className="m-auto w-20" src="https://cdn-icons-png.flaticon.com/512/5058/5058446.png"></img>
+          Tu pedido esta vacio
+          
+        </div>
+        
+        <p></p>
+      </div>
+    </div>
+
     </main>
   )
 }
