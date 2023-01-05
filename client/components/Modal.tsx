@@ -1,16 +1,15 @@
 import React from "react";
+import { BiMinus, BiPlus } from "react-icons/bi"
 
-export default function Modal() {
-  const [showModal, setShowModal] = React.useState(false);
+interface Props {
+  showModal: boolean;
+  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Modal({showModal, setShowModal}: Props) {
+  
   return (
     <>
-      <button
-        className="bg-pink-500 text-white active:bg-pink-600 font-bold uppercase text-sm px-6 py-8 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-        type="button"
-        onClick={() => setShowModal(true)}
-      >
-        Open regular modal
-      </button>
       {showModal ? (
         <>
           <div
@@ -36,44 +35,56 @@ export default function Modal() {
                 <picture className="">
                   <img className='bg-cover w-full h-72 object-cover' src="https://images.deliveryhero.io/image/pedidosya/products/a61d673f-87d9-47e1-8cf9-b44ce5e42dec.jpg?quality=90&width=1920&webp=1"/>
                 </picture>
-                <div className="relative p-6 flex-auto">
-                  <div className="flex justify-between">
+                <div className="relative p-4 flex-auto">
+                  <div className="flex justify-between items-center">
                     <h5 className="font-medium text-lg">Helado 1 kg</h5>
                     <h5 className="text-2xl font-medium">$220.00</h5>
                   </div>
-                  
-                  <p className="my-1 text-slate-500 text-sm leading-relaxed">
-                    I always felt like I could do anything. That’s the main
-                    thing people are controlled by! Thoughts- their perception
-                    of themselves! They're slowed down by their perception of
-                    themselves. If you're taught you can’t do anything, you
-                    won’t do anything. I was taught I could do everything.
-                  </p>
-
-                  <div>
-                    Unidades 
-                    <button>+</button> 1 <button>-</button>
-                  </div>
-
-                  <div>
-                    <h5 className="font-medium text-lg">Notas para este producto</h5>
-                    <p className="my-3 text-slate-500 text-sm leading-relaxed">
-                      Las seguiremos cuando la preparemos!
+                  <div className="">
+                    <p className="leading-tight text-slate-500 text-sm">
+                      I always felt like I could do anything. That’s the main
+                      thing people are controlled by! Thoughts- their perception
+                      of themselves! They're slowed down by their perception of
+                      themselves. If you're taught you can’t do anything, you
+                      won’t do anything. I was taught I could do everything.
                     </p>
-                    <textarea>
 
-                    </textarea>
+                    <div className="flex p-4 items-center bg-slate-100 justify-between">
+                      Unidades 
+                      <div className="bg-slate-300 border rounded-xl flex p-1">
+                        <button className='flex items-center pl-2 pr-4'>
+                          <BiMinus size="18"/>
+                        </button> 
+                          <span className=''>1</span>
+                        <button className='flex items-center pr-2 pl-4'>
+                          <BiPlus size="18"/>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className='bg-slate-100'>
+                      <h5 className="font-medium text-lg">Notas para este producto</h5>
+                      <p className="text-slate-500 text-sm leading-relaxed">
+                        Las seguiremos cuando la preparemos!
+                      </p>
+                      <input
+                        type="text"
+                        className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
+                    </div>
                   </div>
+                  
                  
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                <div className="w-full flex justify-center p-4 border-t border-solid border-slate-200 rounded-b">
                   <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-red-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
                     type="button"
                     onClick={() => setShowModal(false)}
                   >
-                    Agregar a mi pedido $220.00
+                    <span> 2 </span>
+                    <span> Agregar a mi pedido </span>
+                    <span className='font-bold'> $220.00 </span>
                   </button>
                 </div>
               </div>
