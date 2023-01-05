@@ -16,7 +16,11 @@ export class ProductsService {
   ) {}
 
   allProducts(): Promise<object | HttpException> {
-    return this.productRepository.find();
+    return this.productRepository.find({
+      relations: {
+        category: true,
+      },
+    });
   }
 
   async createProduct(
@@ -31,20 +35,38 @@ export class ProductsService {
       return new HttpException('Product already exists', HttpStatus.CONFLICT);
 
     if (category) {
-      console.log(category);
+      if (!+category)
+        return new HttpException(
+          'Categoryid is not a number',
+          HttpStatus.BAD_REQUEST,
+        );
+
       const categoryExists = await this.categoryRepository.findOneBy({
         id: String(category),
       });
 
-      console.log(categoryExists);
-
-      if (categoryExists)
+      if (!categoryExists)
         return new HttpException('Category not found', HttpStatus.NOT_FOUND);
     }
 
-    if (productFound)
-      return new HttpException('Product already exists', HttpStatus.CONFLICT);
     const newProduct = this.productRepository.create(product);
     return this.productRepository.save(newProduct);
+  }
+
+  async deleteProduct(productId: string): Promise<object | HttpException> {
+    if (!+productId)
+      return new HttpException(
+        'ProductId is not a number',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const productFound = await this.productRepository.findOneBy({
+      id: productId,
+    });
+
+    if (!productFound)
+      return new HttpException('Product not found', HttpStatus.NOT_FOUND);
+
+    return this.productRepository.remove(productFound);
   }
 }
