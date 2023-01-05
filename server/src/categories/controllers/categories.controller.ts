@@ -31,7 +31,7 @@ export class CategoriesController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(':id')
+  @Delete(':categoryId')
   deleteCategory(@Param() params) {
     return this.categoriesService.deleteCategory(params.categoryId);
   }

@@ -28,6 +28,12 @@ export class CategoriesService {
   }
 
   async deleteCategory(categoryId: string): Promise<object | HttpException> {
+    if (!+categoryId)
+      return new HttpException(
+        'Categoryid is not a number',
+        HttpStatus.BAD_REQUEST,
+      );
+
     const categoryFound = await this.categoryRepository.findOneBy({
       id: categoryId,
     });
