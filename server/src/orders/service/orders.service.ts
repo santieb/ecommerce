@@ -20,6 +20,19 @@ export class OrdersService {
     private productRepository: Repository<ProductsEntity>,
   ) {}
 
+  async getAllOrders() {
+    return await this.orderRepository.find({
+      relations: ['user', 'orderDetails'],
+    });
+  }
+
+  async getMyOrders({ userId }) {
+    return await this.orderRepository.find({
+      where: { user: userId },
+      relations: ['orderDetails'],
+    });
+  }
+
   async addOrder(order: AddOrderDto, { userId }) {
     let total = 0;
 

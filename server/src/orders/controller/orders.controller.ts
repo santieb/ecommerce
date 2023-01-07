@@ -15,14 +15,14 @@ export class OrdersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
-  myOrders(@Body() newOrder: AddOrderDto, @Req() req) {
-    return this.ordersService.addOrder(newOrder, req.user);
+  @Get('myorders')
+  myOrders(@Req() req) {
+    return this.ordersService.getMyOrders(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  allOrders(@Body() newOrder: AddOrderDto, @Req() req) {
-    return this.ordersService.addOrder(newOrder, req.user);
+  allOrders() {
+    return this.ordersService.getAllOrders();
   }
 }
