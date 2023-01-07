@@ -8,6 +8,9 @@ export class OrdersDetailsEntity extends BaseEntity {
   @Column()
   amount: number;
 
+  @Column({ default: null })
+  note: string;
+
   @Column()
   subtotal: number;
 
