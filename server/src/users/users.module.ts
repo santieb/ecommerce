@@ -4,8 +4,10 @@ import { UsersController } from './controllers/users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersEntity } from './entities/users.entity';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './jwt.constants';
-import { JwtStrategy } from './jwt.strategy';
+import { jwtConstants } from './helpers/jwt.constants';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './helpers/local.strategy';
+import { JwtStrategy } from './helpers/jwt.strategy';
 
 @Module({
   imports: [
@@ -14,8 +16,9 @@ import { JwtStrategy } from './jwt.strategy';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '24h' },
     }),
+    PassportModule,
   ],
-  providers: [UsersService, JwtStrategy],
+  providers: [UsersService, JwtStrategy, LocalStrategy],
   controllers: [UsersController],
 })
 export class UsersModule {}
