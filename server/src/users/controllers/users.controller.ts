@@ -1,5 +1,6 @@
 import {
   Body,
+  Request,
   Controller,
   HttpException,
   Post,
@@ -10,8 +11,8 @@ import { CreateUserDto } from '../dto/createUser.dto';
 import { UsersService } from '../services/users.service';
 import * as bcrypt from 'bcrypt';
 import { UsersEntity } from '../entities/users.entity';
-import { LoginUserDto } from '../dto/loginUser.dto';
-import { JwtAuthGuard } from '../jwt.auth.guard';
+import { JwtAuthGuard } from '../helpers/jwt-auth.guard';
+import { RolesGuard } from '../helpers/role.guard';
 
 @Controller('users')
 export class UsersController {
@@ -28,11 +29,18 @@ export class UsersController {
   }
 
   @Post('login')
-  async loginUser(@Body() user: LoginUserDto) {
-    return this.usersService.loginUser(user);
+  async loginUser(@Request() req) {
+    const { email, password } = req.body;
+    return this.usersService.login(email, password);
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('profile')
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   allUsers() {
     return this.usersService.allUsers();

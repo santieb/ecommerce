@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from '../services/products.service';
 import { CreateProductDto } from '../dto/createProduct.dto';
-import { JwtAuthGuard } from 'src/users/jwt.auth.guard';
+import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
 import { ProductsEntity } from '../entities/products.entity';
 
 @Controller('products')

@@ -8,7 +8,7 @@ import {
   UseGuards,
   HttpException,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/users/jwt.auth.guard';
+import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../dto/createCategory.dto';
 import { CategoriesEntity } from '../entities/categories.entity';
