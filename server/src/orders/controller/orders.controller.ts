@@ -1,5 +1,6 @@
 import { Controller, Post, UseGuards, Body, Req } from '@nestjs/common';
 import { Get } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { RolesGuard } from 'src/users/helpers/role.guard';
 import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
 import { AddOrderDto } from '../dto/addOrder.dto';
 import { OrdersService } from '../service/orders.service';
@@ -20,7 +21,7 @@ export class OrdersController {
     return this.ordersService.getMyOrders(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Get()
   allOrders() {
     return this.ordersService.getAllOrders();
