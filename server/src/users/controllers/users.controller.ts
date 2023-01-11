@@ -29,8 +29,8 @@ export class UsersController {
   }
 
   @Post('login')
-  async loginUser(@Request() req) {
-    const { email, password } = req.body;
+  async loginUser(@Body() Body) {
+    const { email, password } = Body;
     return this.usersService.login(email, password);
   }
 
