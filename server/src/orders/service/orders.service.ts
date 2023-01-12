@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ProductsEntity } from 'src/products/entities/products.entity';
 import { Repository } from 'typeorm';
 import { AddOrderDto } from '../dto/addOrder.dto';
-import { orderDetailDto } from '../dto/orderDetail.dto';
 import { OrdersEntity } from '../entities/orders.entity';
 import { OrdersDetailsEntity } from '../entities/ordersDetails.entity';
 
@@ -26,14 +25,27 @@ export class OrdersService {
     });
   }
 
-  async getMyOrders({ userId }) {
-    return await this.orderRepository.find({
-      where: { user: userId },
-      relations: ['orderDetails'],
-    });
+  async getMyOrders({ id: userId }) {
+    const orders = await this.orderRepository
+      .createQueryBuilder('orders')
+      .where('orders.user = :id', { id: userId })
+      .getMany();
+
+    const orderWithDetails = [];
+    for (const order of orders) {
+      const orderDetail = await this.orderDetailRepository
+        .createQueryBuilder('order_details')
+        .where('order_details.order = :id', { id: order.id })
+        .getMany();
+
+      order.orderDetails = orderDetail;
+      orderWithDetails.push(order);
+    }
+
+    return orderWithDetails;
   }
 
-  async addOrder(order: AddOrderDto, { userId }) {
+  async addOrder(order: AddOrderDto, { id: userId }) {
     let total = 0;
 
     for await (const orderDetail of order.orderDetails) {
@@ -64,6 +76,7 @@ export class OrdersService {
       const newOrderDetail = this.orderDetailRepository.create();
       newOrderDetail.amount = amount;
       newOrderDetail.note = note || undefined;
+      newOrderDetail.nameProduct = productFound.name;
       newOrderDetail.product = product;
       newOrderDetail.order = newOrder;
       newOrderDetail.subtotal = productFound.price * amount;
