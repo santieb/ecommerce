@@ -6,6 +6,9 @@ import { ProductsEntity } from '../../products/entities/products.entity';
 @Entity({ name: 'order_details' })
 export class OrdersDetailsEntity extends BaseEntity {
   @Column()
+  nameProduct: string;
+
+  @Column()
   amount: number;
 
   @Column({ default: null })
