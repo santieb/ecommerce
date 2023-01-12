@@ -80,13 +80,14 @@ export class OrdersService {
       newOrderDetail.product = product;
       newOrderDetail.order = newOrder;
       newOrderDetail.subtotal = productFound.price * amount;
+
       return await this.orderDetailRepository.save(newOrderDetail);
     };
 
-    Promise.all(
+    const orderDetails = await Promise.all(
       order.orderDetails.map((orderDetail) => createOrderDetail(orderDetail)),
     );
 
-    return { newOrder };
+    return { newOrder, orderDetails };
   }
 }
