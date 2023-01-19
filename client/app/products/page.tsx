@@ -7,10 +7,6 @@ import ProductCard from "../../components/ProductCard";
 
 export default function Home() {
 
-  useEffect(() => {
-    
-  }, []);
-
   return (
     <main className="flex bg-red-50 w-full">
 
