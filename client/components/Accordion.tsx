@@ -1,26 +1,51 @@
-import React from "react"
+import React, { useState, useRef } from "react"
+type AccordionProps = {
+  title: string
+  content: string
+}
+const Accordion = ({ title, content }: AccordionProps) => {
+  const [isOpened, setOpened] = useState<boolean>(false)
+  const [height, setHeight] = useState<string>("0px")
+  const contentElement = useRef(null)
 
-const Accordion = () => {
+  const HandleOpening = () => {
+    setOpened(!isOpened)
+    setHeight(!isOpened ? `${contentElement.current.scrollHeight}px` : "0px")
+  }
+  
 
   return (
     <>
-    <button className="col-span-4 group border-black focus:outline-none">
-			<div className="flex items-center justify-between h-12 px-3 font-semibold hover:bg-gray-200">
-				<span className="truncate">1 thomas barreto 5 $400</span>
-				<svg className="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-					<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-				</svg>
-			</div>
-			<div className="max-h-0 overflow-hidden duration-300 group-focus:max-h-40">
-				<a className="flex items-center h-8 px-4 text-sm hover:bg-gray-200" href="#">Item A</a>
-				<a className="flex items-center h-8 px-4 text-sm hover:bg-gray-200" href="#">Item B</a>
-				<a className="flex items-center h-8 px-4 text-sm hover:bg-gray-200" href="#">Item C</a>
-			</div>
-		</button>
-  </>
+      <div onClick={HandleOpening} className=" cursor-pointer cursor-pointerbg-white border-b hover:bg-gray-50 ">
+        1
+      </div>
+        <div onClick={HandleOpening} className=" cursor-pointer cursor-pointerbg-white border-b hover:bg-gray-50 ">
+          Thomas Barreto
+          
+        </div>
+        <div onClick={HandleOpening} className=" cursor-pointer cursor-pointerbg-white border-b hover:bg-gray-50 ">
+          5
+          
+        </div>
+        <div onClick={HandleOpening} className=" cursor-pointer cursor-pointerbg-white border-b hover:bg-gray-50 ">
+          $5000
+          
+        </div>
+      
+      
+      <div  ref={contentElement}
+        style={{ height: height }}
+        className="col-span-4 bg-gray-200 overflow-hidden transition-all duration-200" >
+        <td colspan='3' className="p-8">
+          <div>Pizza Primavera x 4</div>
+        </td>
+        <td colspan='3' className="">
+          <div>$8000</div>
+        </td>
+      </div>
+   
+ </>
   )
 }
-
-
 
 export default Accordion

@@ -15,25 +15,17 @@ const page = () => {
 
   return (
     <div className="max-w-fit m-auto">
-    <div className="grid grid-cols-4  ">
-            <div >id</div>
-            <div >nombre</div>
-            <div>cantidad</div>
-            <div>total</div>
-            <div>05</div>
-            <div>04</div>
-            <div>05</div>
-            <div>04</div>
-            <div>05</div>
-            <Accordion/>
-            <Accordion/>
-            <Accordion/>
-            <Accordion/>
+      <div className="grid grid-cols-4 items-center text-center">
+              <div >id</div>
+              <div >nombre</div>
+              <div>cantidad</div>
+              <div>total</div>
+              <Accordion title='content' content='cononasdnasoj ajsg'/>
+              <Accordion/>
+              <Accordion/>
+              <Accordion/>
+      </div>
     </div>
-    <div class="flex flex-col w-56">
-		
-	</div>
-</div>
   )
 }
 
