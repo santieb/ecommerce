@@ -1,71 +1,54 @@
-'use client'
+"use client";
 import { useEffect } from "react";
 import HorizontalProductCard from "../components/HorizontalProductCard";
 import ListCategories from "../components/ListCategories";
 import Modal from "../components/Modal";
 import ProductCard from "../components/ProductCard";
+import Image from "next/image";
+import Stats from "../components/Stats";
+import Jumbotron from "../components/Jumbotron";
+import Gallery from "../components/Gallery";
 
 export default function Home() {
-
-  useEffect(() => {
-    
-  }, []);
-
   return (
-    <main className="flex bg-red-50 w-full">
+    <>
 
-      <div className="w-2/12 h-screen">
-        <div className="bg-white m-8 p-4 shadow-lg rounded-lg">
-          <ListCategories/>
-        </div>
-      </div>
+          <div
+            className="relative overflow-hidden bg-no-repeat bg-cover"
+            style={{
+              backgroundPosition: "50%",
+              backgroundImage:
+                "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrJNDdBXje6pCZcuRbj-Eu9zYzSY-s3LAXvQ&usqp=CAU')",
+              height: "500px",
+            }}
+          >
+            <div
+              className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
+              style={{ backgroundColor: "rgba(0, 0, 0, 0.75)" }}
+            >
+              <div className="flex justify-center items-center h-full">
+                <div className="text-center text-white px-6 md:px-12">
+                  <h1 className="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">
+                    Primero la comida<br />
+                    <span>segundo francia </span>
+                  </h1>
+                  <a
+                    className="inline-block px-7 py-3 mr-1.5 border-2 border-white text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                    data-mdb-ripple="true"
+                    data-mdb-ripple-color="light"
+                    href="#!"
+                    role="button"
+                  >
+                    Ordenar!
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
-     <section className="w-8/12 h-screen">
-     
-      <div className="py-4">
-        <h3 className="pb-4 text-2xl font-medium ">Productos Destacados</h3>
-        <div className="flex r gap-x-4 flex-wrap">
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-          <ProductCard/>
-        </div>
-      </div>
-      <div className="py-4">
-        <h3 className=" pb-4 text-2xl font-medium ">Productos Destacados</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-        </div>
-      </div>
-
-      <div className="py-4">
-        <h3 className=" pb-4 text-2xl font-medium ">Bebidas</h3>
-        <div className="grid grid-cols-3 gap-4">
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-        </div>
-      </div>
-        
-     </section>
-    <div className="w-3/12 h-screen">
-      <div className=" bg-white m-8 p-4 shadow-lg rounded-lg">
-        Mi Pedido
-        <div className=" text-center">
-          <img className="m-auto w-20" src="https://cdn-icons-png.flaticon.com/512/5058/5058446.png"></img>
-          Tu pedido esta vacio
-          
-        </div>
-        
-        <p></p>
-      </div>
-    </div>
-
-    </main>
-  )
+      <Stats/>
+      <Gallery/>
+      <Jumbotron/>
+    </>
+  );
 }
