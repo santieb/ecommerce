@@ -6,7 +6,7 @@ const Stats = () => {
       <section className="mb-32 text-gray-800 text-center">
         <div className="grid gap-x-6 lg:gap-x-12 md:grid-cols-3">
           <div className="mb-12 md:mb-0">
-            <h2 className="text-3xl font-bold display-5 text-blue-600 mb-4">
+            <h2 className="text-3xl font-bold display-5 text-orange-600 mb-4">
               +800
             </h2>
             <h5 className="text-lg font-medium mb-4">Resenas positivas</h5>
@@ -16,7 +16,7 @@ const Stats = () => {
           </div>
 
           <div className="mb-12 md:mb-0">
-            <h2 className="text-3xl font-bold display-5 text-blue-600 mb-4">
+            <h2 className="text-3xl font-bold display-5 text-orange-600 mb-4">
               70%
             </h2>
             <h5 className="text-lg font-medium mb-4">Growth</h5>
@@ -27,7 +27,7 @@ const Stats = () => {
           </div>
 
           <div className="mb-12 md:mb-0">
-            <h2 className="text-3xl font-bold display-5 text-blue-600 mb-4">
+            <h2 className="text-3xl font-bold display-5 text-orange-600 mb-4">
               +50
             </h2>
             <h5 className="text-lg font-medium mb-4">Menus</h5>

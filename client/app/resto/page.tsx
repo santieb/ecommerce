@@ -14,17 +14,17 @@ export default function Home() {
   return (
     <main className="flex bg-red-50 w-full">
 
-      <div className="w-2/12 h-screen">
-        <div className="bg-white m-8 p-4 shadow-lg rounded-lg">
+      <div className="w-3/12 h-screen">
+        <div className=" m-8 p-4 shadow-lg rounded-lg">
           <ListCategories/>
         </div>
       </div>
 
-     <section className="w-8/12 h-screen">
+     <section className="w-6/12 h-screen">
      
       <div className="py-4">
         <h3 className="pb-4 text-2xl font-medium ">Productos Destacados</h3>
-        <div className="flex r gap-x-4 flex-wrap">
+        <div className="grid grid-cols-5 m-auto justify-items-center">
           <ProductCard/>
           <ProductCard/>
           <ProductCard/>
@@ -34,7 +34,7 @@ export default function Home() {
       </div>
       <div className="py-4">
         <h3 className=" pb-4 text-2xl font-medium ">Productos Destacados</h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <HorizontalProductCard/>
           <HorizontalProductCard/>
           <HorizontalProductCard/>
@@ -44,7 +44,7 @@ export default function Home() {
 
       <div className="py-4">
         <h3 className=" pb-4 text-2xl font-medium ">Bebidas</h3>
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 gap-4">
           <HorizontalProductCard/>
           <HorizontalProductCard/>
           <HorizontalProductCard/>
