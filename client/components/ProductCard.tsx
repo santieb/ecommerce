@@ -7,8 +7,8 @@ const ProductCard = () => {
   return (
     <>
       <Modal showModal={showModal} setShowModal={setShowModal}/>
-      <div onClick={()=> setShowModal(!showModal)} className="flex w-48 h-72 justify-center cursor-pointer">
-        <div className="rounded-lg shadow-lg bg-white max-w-sm">
+      <div onClick={()=> setShowModal(!showModal)} className="flex w-44  h-64  justify-center cursor-pointer">
+        <div className=" bg-white max-w-sm">
           <img className="rounded-t-lg h-1/2 w-full object-cover" src="https://images.immediate.co.uk/production/volatile/sites/30/2022/09/Spicy-tomato-spaghetti-caf3053.jpg" alt="" />
           
           <div className="px-4 py-3">
