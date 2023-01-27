@@ -8,10 +8,11 @@ import {
   UseGuards,
   HttpException,
 } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/users/jwt.auth.guard';
+import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto } from '../dto/createCategory.dto';
 import { CategoriesEntity } from '../entities/categories.entity';
+import { RolesGuard } from 'src/users/helpers/role.guard';
 
 @Controller('categories')
 export class CategoriesController {
@@ -22,7 +23,7 @@ export class CategoriesController {
     return this.categoriesService.allCategories();
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Post()
   async createCategory(
     @Body() newCategory: CreateCategoryDto,
@@ -30,7 +31,7 @@ export class CategoriesController {
     return this.categoriesService.createCategory(newCategory);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @Delete(':categoryId')
   deleteCategory(@Param() params) {
     return this.categoriesService.deleteCategory(params.categoryId);
