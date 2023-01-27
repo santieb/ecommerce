@@ -1,10 +1,4 @@
-"use client";
-import { useEffect } from "react";
-import HorizontalProductCard from "../components/HorizontalProductCard";
-import ListCategories from "../components/ListCategories";
-import Modal from "../components/Modal";
-import ProductCard from "../components/ProductCard";
-import Image from "next/image";
+import Link from "next/link";
 import Stats from "../components/Stats";
 import Jumbotron from "../components/Jumbotron";
 import Gallery from "../components/Gallery";
@@ -32,15 +26,15 @@ export default function Home() {
                     Primero la comida<br />
                     <span>segundo francia </span>
                   </h1>
-                  <a
-                    className="inline-block px-7 py-3 mr-1.5 border-2 border-white text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="light"
-                    href="#!"
-                    role="button"
-                  >
-                    Ordenar!
-                  </a>
+                    <Link
+                      className="inline-block px-7 py-3 mr-1.5 border-2 border-white text-white font-medium text-sm leading-snug uppercase rounded-full shadow-md hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                      data-mdb-ripple="true"
+                      data-mdb-ripple-color="light"
+                      href="products"
+                      role="button"
+                    >
+                      Hacer pedido!
+                    </Link>
                 </div>
               </div>
             </div>
