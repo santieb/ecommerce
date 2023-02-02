@@ -1,20 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { useEffect } from "react";
 import HorizontalProductCard from "../../components/HorizontalProductCard";
 import ListCategories from "../../components/ListCategories";
 import Modal from "../../components/Modal";
 import ProductCard from "../../components/ProductCard";
-import { useProductStore } from "../../state/Products";
+import { useCategoriesStore, useProductStore } from "../../state/Products";
 
 export default function Home() {
 
   const getProducts = useProductStore((state) => state.getProducts)
   const products = useProductStore((state) => state.products)
 
+  const getCategories = useCategoriesStore((state) => state.getCategories)
+  const categories = useCategoriesStore((state) => state.categories)
+
   useEffect(() => {
     getProducts()
+    getCategories()
   }, []);
-  console.log(products)
+  console.log(categories)
 
   return (
     <main className="flex bg-orange-50 w-full">
@@ -40,26 +45,14 @@ export default function Home() {
       <div className="py-4">
         <h3 className=" pb-4 text-2xl font-medium ">Productos Destacados</h3>
         <div className="grid grid-cols-2 gap-4 justify-items-center">
-          {products.length > 0 ? products.map(product => (<HorizontalProductCard key={product.id}/>)) :
+          {products.length > 0 ? products.map(product => (<HorizontalProductCard product={product} key={product.id}/>)) :
             'cargando...'
           }
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-        </div>
-      </div>
-
-      <div className="py-4">
-        <h3 className=" pb-4 text-2xl font-medium ">Bebidas</h3>
-        <div className="grid grid-cols-2 gap-4 justify-items-center">
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-          <HorizontalProductCard/>
-        </div>
-      </div>
         
+        </div>
+      </div>
+      
+    
      </section>
     <div className="w-3/12 h-screen">
       <div className=" bg-white m-8 p-4 shadow-lg rounded-lg ">

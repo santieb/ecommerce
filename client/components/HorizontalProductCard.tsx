@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import Modal from './Modal'
 
-const HorizontalProductCard = () => {
+const HorizontalProductCard = ({product}) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
