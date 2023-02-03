@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiMinus, BiPlus } from "react-icons/bi"
+import { useCartStore } from "../state/Products";
 
 interface Props {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Modal({showModal, setShowModal}: Props) {
+export default function Modal({showModal, setShowModal, product}) {
+  const [amount, setAmount] = useState(1)
+  const [notes, setNotes] = useState('')
   
+  const addCart = useCartStore((state) => state.addCart)
+
+  const addToCart = (id, amount, notes) => {
+    addCart(id, amount, notes)
+    setShowModal(false)
+  }
+
   return (
     <>
       {showModal ? (
@@ -37,8 +47,8 @@ export default function Modal({showModal, setShowModal}: Props) {
                 </picture>
                 <div className="relative p-4 flex-auto">
                   <div className="flex justify-between items-center">
-                    <h5 className="font-medium text-lg">Helado 1 kg</h5>
-                    <h5 className="text-2xl font-medium">$220.00</h5>
+                    <h5 className="font-medium text-lg">{product.name}</h5>
+                    <h5 className="text-2xl font-medium">${product.price}</h5>
                   </div>
                   <div className="">
                     <p className="leading-tight text-slate-500 text-sm">
@@ -47,16 +57,17 @@ export default function Modal({showModal, setShowModal}: Props) {
                       of themselves! They're slowed down by their perception of
                       themselves. If you're taught you can’t do anything, you
                       won’t do anything. I was taught I could do everything.
+                      {product.description}
                     </p>
 
                     <div className="flex p-4 items-center bg-slate-100 justify-between">
                       Unidades 
                       <div className="bg-slate-300 border rounded-xl flex p-1">
-                        <button className='flex items-center pl-2 pr-4'>
+                        <button onClick={() => setAmount(amount < 2 ? amount : amount-1)} className='flex items-center pl-2 pr-4'>
                           <BiMinus size="18"/>
                         </button> 
-                          <span className=''>1</span>
-                        <button className='flex items-center pr-2 pl-4'>
+                          <span className=''>{amount}</span>
+                        <button onClick={() => setAmount(amount+1)} className='flex items-center pr-2 pl-4'>
                           <BiPlus size="18"/>
                         </button>
                       </div>
@@ -68,6 +79,8 @@ export default function Modal({showModal, setShowModal}: Props) {
                         Las seguiremos cuando la preparemos!
                       </p>
                       <input
+                        onChange={(e) => setNotes(e.target.value)}
+                        value={notes}
                         type="text"
                         className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
                     </div>
@@ -80,11 +93,11 @@ export default function Modal({showModal, setShowModal}: Props) {
                   <button
                     className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-red-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => addToCart(product.id, amount, notes)}
                   >
-                    <span> 2 </span>
+                    <span>{amount}</span>
                     <span> Agregar a mi pedido </span>
-                    <span className='font-bold'> $220.00 </span>
+                  <span className='font-bold'> ${amount * product.price}</span>
                   </button>
                 </div>
               </div>

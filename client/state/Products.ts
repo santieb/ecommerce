@@ -11,6 +11,11 @@ interface CategoriesState {
   getCategories: () => Promise<void>;
 }
 
+interface CartState {
+  cart: [];
+  addCart: () => void;
+}
+
 export const useProductStore = create<ProductState>((set) => ({
   products: [],
   getProducts: async () => {
@@ -23,7 +28,7 @@ export const useProductStore = create<ProductState>((set) => ({
   }
 }))
 
-export const useCategoriesStore = create<CategoriesState>((set) => ({
+export const useCategoriesStore = create<CategoriesState>(set => ({
   categories: [],
   getCategories: async () => {
     try {
@@ -33,4 +38,13 @@ export const useCategoriesStore = create<CategoriesState>((set) => ({
       console.log(error)
     }
   }
+}))
+
+export const useCartStore = create((set, get) => ({
+  cart: [],
+  addCart: (id, amount, notes) => {
+    const { cart } = get();
+    set({ cart: [...cart,  {id, amount, notes}]  })
+  }
+    
 }))
