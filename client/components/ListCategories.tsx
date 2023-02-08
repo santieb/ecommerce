@@ -2,7 +2,7 @@
 import React, {useState} from 'react'
 import {MdArrowDropDown, MdArrowDropUp} from 'react-icons/md'
 
-const ListCategories = () => {
+const ListCategories = ({categories}) => {
   const [isOpen, setIsOpen] = useState(true)
 
   return (
@@ -13,15 +13,9 @@ const ListCategories = () => {
       </div>
       { isOpen &&  
         <ul className='text-gray-800'>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
-          <li>asdasdasfasf</li>
+          {categories.map(category => (
+            <li>{category.name}</li>
+          ))}
         </ul>
       }
     </div>

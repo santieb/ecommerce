@@ -24,8 +24,8 @@ async function Home() {
     <main className="flex bg-orange-50 w-full">
 
       <div className="w-3/12 h-screen">
-        <div className=" m-8 p-4 shadow-lg rounded-lg">
-          <ListCategories/>
+        <div className=" m-8 p-4 bg-white shadow-lg rounded-lg">
+          <ListCategories categories={categories}/>
         </div>
       </div>
 
@@ -33,8 +33,8 @@ async function Home() {
      
       <div className="py-4">
         <h3 className="pb-4 text-2xl font-medium ">Productos Destacados</h3>
-        <div className="flex m-auto ">
-          {products.map(product => product.category.name === 'Productos Destacados' && <ProductCard product={product} />) }
+        <div className="flex m-auto justify-between">
+          {products.map(product => product.category.name === 'Productos Destacados' && <ProductCard key={product.id} product={product} />) }
         </div>
       </div>
       {categories.filter(category => (category.name !== 'Productos Destacados')).map(category => (
@@ -43,7 +43,7 @@ async function Home() {
           <div className="py-4">
             <h3 className=" pb-4 text-2xl font-medium ">{category.name}</h3>
               <div className="grid grid-cols-2 gap-4 justify-items-center">
-                {products.map(product => product.category.id === category.id && <HorizontalProductCard product={product} />) }
+                {products.map(product => product.category.id === category.id && <HorizontalProductCard key={product.id} product={product} />) }
               </div>
           </div>
           }

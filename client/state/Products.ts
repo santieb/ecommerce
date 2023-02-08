@@ -42,9 +42,9 @@ export const useCategoriesStore = create<CategoriesState>(set => ({
 
 export const useCartStore = create((set, get) => ({
   cart: [],
-  addCart: (id, amount, notes) => {
+  addCart: (id, amount, name, notes) => {
     const { cart } = get();
-    set({ cart: [...cart,  {id, amount, notes}]  })
+    set({ cart: [...cart,  {id, amount, name, notes}]  })
   }
     
 }))

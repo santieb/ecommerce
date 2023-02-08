@@ -11,7 +11,7 @@ export default function RootLayout({
       <head>
         <title>Ecommerce</title>
       </head>
-      <body>
+      <body className='bg-orange-50'>
       <NavBar/>
         {children}
       </body>

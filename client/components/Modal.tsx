@@ -13,8 +13,8 @@ export default function Modal({showModal, setShowModal, product}) {
   
   const addCart = useCartStore((state) => state.addCart)
 
-  const addToCart = (id, amount, notes) => {
-    addCart(id, amount, notes)
+  const addToCart = (id, amount,name, notes) => {
+    addCart(id, amount, name, notes)
     setShowModal(false)
   }
 
@@ -23,12 +23,12 @@ export default function Modal({showModal, setShowModal, product}) {
       {showModal ? (
         <>
           <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+            className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
           >
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="flex border-0 rounded-lg shadow-lg relative flex-col w-full bg-white outline-none focus:outline-none">
-                <div className="flex p-3 border-b border-solid border-slate-200 rounded-t">
+              <div className=" flex border-0 rounded-lg shadow-lg relative flex-col w-full bg-orange-50 outline-none focus:outline-none">
+                <div className=" bg-white flex p-3 border-b border-solid border-slate-200 rounded-t">
                 <button
                     className=""
                     onClick={() => setShowModal(false)}
@@ -38,7 +38,7 @@ export default function Modal({showModal, setShowModal, product}) {
                   </span>
                 </button>
                 <h3 className="flex-1 text-center font-semibold">
-                  Helado 1 kg
+                  {product.name}
                 </h3>
                  
               </div>
@@ -46,12 +46,12 @@ export default function Modal({showModal, setShowModal, product}) {
                   <img className='bg-cover w-full h-72 object-cover' src="https://images.deliveryhero.io/image/pedidosya/products/a61d673f-87d9-47e1-8cf9-b44ce5e42dec.jpg?quality=90&width=1920&webp=1"/>
                 </picture>
                 <div className="relative p-4 flex-auto">
-                  <div className="flex justify-between items-center">
-                    <h5 className="font-medium text-lg">{product.name}</h5>
-                    <h5 className="text-2xl font-medium">${product.price}</h5>
-                  </div>
-                  <div className="">
-                    <p className="leading-tight text-slate-500 text-sm">
+                  <div className="p-4 bg-white rounded-lg mb-4 shadow-md">
+                    <div className="flex  justify-between items-center">
+                      <h5 className="font-medium text-lg">{product.name}</h5>
+                      <h5 className="text-2xl font-medium">${product.price}</h5>
+                    </div>
+                     <p className="leading-tight  text-slate-500 text-sm">
                       I always felt like I could do anything. That’s the main
                       thing people are controlled by! Thoughts- their perception
                       of themselves! They're slowed down by their perception of
@@ -59,10 +59,11 @@ export default function Modal({showModal, setShowModal, product}) {
                       won’t do anything. I was taught I could do everything.
                       {product.description}
                     </p>
-
-                    <div className="flex p-4 items-center bg-slate-100 justify-between">
-                      Unidades 
-                      <div className="bg-slate-300 border rounded-xl flex p-1">
+                  </div>
+                  <div className="">
+                    <div className="flex p-4 items-center bg-white rounded-lg shadow-md justify-between">
+                      <h5 className="font-semibold">Unidades</h5>
+                      <div className="bg-orange-200 border-sm rounded-xl flex p-1">
                         <button onClick={() => setAmount(amount < 2 ? amount : amount-1)} className='flex items-center pl-2 pr-4'>
                           <BiMinus size="18"/>
                         </button> 
@@ -73,27 +74,24 @@ export default function Modal({showModal, setShowModal, product}) {
                       </div>
                     </div>
 
-                    <div className='bg-slate-100'>
-                      <h5 className="font-medium text-lg">Notas para este producto</h5>
+                    <div >
+                      <h5 className="font-medium pt-4 text-lg">Notas para este producto</h5>
                       <p className="text-slate-500 text-sm leading-relaxed">
                         Las seguiremos cuando la preparemos!
                       </p>
-                      <input
-                        onChange={(e) => setNotes(e.target.value)}
-                        value={notes}
-                        type="text"
-                        className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
+                        <input
+                          onChange={(e) => setNotes(e.target.value)}
+                          value={notes}
+                          type="text"
+                          className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-orange-50 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
                     </div>
                   </div>
-                  
-                 
                 </div>
-                {/*footer*/}
-                <div className="w-full flex justify-center p-4 border-t border-solid border-slate-200 rounded-b">
+                <div className="w-full flex justify-center p-4 border-t border-solid bg-white border-slate-200 rounded-b">
                   <button
-                    className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-red-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
+                    className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-orange-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
                     type="button"
-                    onClick={() => addToCart(product.id, amount, notes)}
+                    onClick={() => addToCart(product.id, product.name, amount, notes)}
                   >
                     <span>{amount}</span>
                     <span> Agregar a mi pedido </span>
