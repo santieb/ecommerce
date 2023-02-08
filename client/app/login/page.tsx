@@ -1,4 +1,6 @@
+'use client'
 import React from 'react'
+import  LoginModal  from '../../components/LoginModal'
 
 const page = () => {
   return (
@@ -123,6 +125,7 @@ const page = () => {
       </div>
     </div>
   </div>
+  <LoginModal/>
 </section>
   )
 }
