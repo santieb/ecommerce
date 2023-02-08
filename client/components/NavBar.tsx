@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Button } from './Button'
 import LoginModal from './LoginModal'
+import RegisterModal from './RegisterModal'
 
 const NavBar = () => {
   return (
@@ -14,10 +15,8 @@ const NavBar = () => {
           </Link>
         </div>
         <div className="flex items-center lg:ml-auto">
+          <RegisterModal/>
           <LoginModal/>
-          <Button theme={'primary'}>
-            Registrarme
-          </Button>
         </div>
       </div>
     </nav>

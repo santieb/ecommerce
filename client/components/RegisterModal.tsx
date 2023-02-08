@@ -4,13 +4,13 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
-const LoginModal = () => {
+const RegisterModal = () => {
   const [open, setOpen] = useState(false)
 
   const cancelButtonRef = useRef(null)
   return (
     <>
-      <Button theme={'secundary'} onClick={() => { setOpen(true) }}>Login</Button>
+      <Button theme={'primary'} onClick={() => { setOpen(true) }}>Registrarse</Button>
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
           <Transition.Child
@@ -38,8 +38,21 @@ const LoginModal = () => {
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="px-6 py-6 lg:px-8 ">
-                    <h3 className="mb-4 text-xl font-medium text-gray-900 ">Login</h3>
+                    <h3 className="mb-4 text-xl font-medium text-gray-900 ">Registrarse</h3>
                     <form className="space-y-6" action="#">
+                    <div>
+                        <label
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                          htmlFor="name" >
+                          Nombre
+                        </label>
+                        <input
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          type="text"
+                          name="name"
+                          id="name"
+                          placeholder="John Doe" required />
+                      </div>
                       <div>
                         <label
                           className="block mb-2 text-sm font-medium text-gray-900 "
@@ -67,9 +80,9 @@ const LoginModal = () => {
                           placeholder="••••••••"
                         />
                       </div>
-                      <Button theme={'primary'} onClick={() => { setOpen(false) }}>Iniciar Sesion!</Button>
+                      <Button theme={'primary'} onClick={() => { setOpen(false) }}>Registrarse!</Button>
                       <div className="text-sm font-medium text-gray-500">
-                        ¿Aún no tienes cuenta? <Link href="#" className="text-orange-700 hover:underline">Registrarse!</Link>
+                        ¿Ya tienes una cuenta? <Link href="#" className="text-orange-700 hover:underline">Iniciar sesion!</Link>
                       </div>
                   </form>
                   </div>
@@ -83,7 +96,7 @@ const LoginModal = () => {
   );
 }
 
-export default LoginModal
+export default RegisterModal
 
 import React from "react";
 import Link from 'next/link'
