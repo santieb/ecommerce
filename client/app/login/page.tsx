@@ -1,8 +1,10 @@
+'use client'
 import React from 'react'
+import  LoginModal  from '../../components/LoginModal'
 
 const page = () => {
   return (
-    <section className="h-screen max-w-6xl m-auto">
+    <section className="flex items-center justify-center max-w-6xl m-auto bg-white">
   <div className="px-6 h-full text-gray-800">
     <div
       className="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
@@ -123,6 +125,7 @@ const page = () => {
       </div>
     </div>
   </div>
+  <LoginModal/>
 </section>
   )
 }
