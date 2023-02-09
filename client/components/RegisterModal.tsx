@@ -4,10 +4,40 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
 // import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 
+const registerInputs = {
+  email: '',
+  password: '',
+  name: '',
+};
+
 const RegisterModal = () => {
   const [open, setOpen] = useState(false)
+  const { name, email, password, onInputChange } = useForm(registerInputs);
 
   const cancelButtonRef = useRef(null)
+
+  
+  const fetchRegister = async (data) => {
+    const requestOptions = {
+      method: 'POST',
+      'mode': 'cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }
+
+    const res = await fetch('http://localhost:3000/api/users/register', requestOptions)
+    return await res.json()
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    const res = await fetchRegister({ name, email, password })
+    console.log(res)
+  }
+
   return (
     <>
       <Button theme={'primary'} onClick={() => { setOpen(true) }}>Registrarse</Button>
@@ -39,8 +69,8 @@ const RegisterModal = () => {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="px-6 py-6 lg:px-8 ">
                     <h3 className="mb-4 text-xl font-medium text-gray-900 ">Registrarse</h3>
-                    <form className="space-y-6" action="#">
-                    <div>
+                    <form onSubmit={handleSubmit} className="space-y-6" action="#">
+                      <div>
                         <label
                           className="block mb-2 text-sm font-medium text-gray-900 "
                           htmlFor="name" >
@@ -51,6 +81,8 @@ const RegisterModal = () => {
                           type="text"
                           name="name"
                           id="name"
+                          value={name}
+                          onChange={onInputChange}
                           placeholder="John Doe" required />
                       </div>
                       <div>
@@ -64,6 +96,8 @@ const RegisterModal = () => {
                           type="email"
                           name="email"
                           id="email"
+                          value={email}
+                          onChange={onInputChange}
                           placeholder="john@gmail.com" required />
                       </div>
                       <div>
@@ -77,14 +111,20 @@ const RegisterModal = () => {
                           type="password"
                           name="password"
                           id="password"
+                          value={password}
+                          onChange={onInputChange}
                           placeholder="••••••••"
                         />
                       </div>
-                      <Button theme={'primary'} onClick={() => { setOpen(false) }}>Registrarse!</Button>
+                      <Button
+                        type={'submit'}
+                        theme={'primary'}>
+                        Registrarse!
+                      </Button>
                       <div className="text-sm font-medium text-gray-500">
                         ¿Ya tienes una cuenta? <Link href="#" className="text-orange-700 hover:underline">Iniciar sesion!</Link>
                       </div>
-                  </form>
+                    </form>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -100,6 +140,7 @@ export default RegisterModal
 
 import React from "react";
 import Link from 'next/link'
+import { useForm } from '../utils/form';
 
 interface Props {
   showModal: boolean;
