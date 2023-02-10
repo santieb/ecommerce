@@ -29,7 +29,9 @@ const RegisterModal = () => {
     }
 
     const res = await fetch('http://localhost:3000/api/users/register', requestOptions)
-    return await res.json()
+    const user = await res.json()
+
+    localStorage.setItem('token', user.access_token);
   }
 
   const handleSubmit = async e => {
