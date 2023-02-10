@@ -10,7 +10,6 @@ import {
 import { CreateUserDto } from '../dto/createUser.dto';
 import { UsersService } from '../services/users.service';
 import * as bcrypt from 'bcrypt';
-import { UsersEntity } from '../entities/users.entity';
 import { JwtAuthGuard } from '../helpers/jwt-auth.guard';
 import { RolesGuard } from '../helpers/role.guard';
 
@@ -21,7 +20,7 @@ export class UsersController {
   @Post('register')
   async createUser(
     @Body() newUser: CreateUserDto,
-  ): Promise<UsersEntity | HttpException> {
+  ): Promise<any | HttpException> {
     const saltOrRounds = 10;
     const hash = await bcrypt.hash(newUser.password, saltOrRounds);
     newUser.password = hash;
