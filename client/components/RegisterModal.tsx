@@ -2,22 +2,16 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
-// import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
-
-const registerInputs = {
-  email: '',
-  password: '',
-  name: '',
-};
-
+import { useFormik } from 'formik';
+import Link from 'next/link';
+import * as yup from 'yup'
+ 
 const RegisterModal = () => {
   const [open, setOpen] = useState(false)
-  const { name, email, password, onInputChange } = useForm(registerInputs);
 
   const cancelButtonRef = useRef(null)
-
   
-  const fetchRegister = async (data) => {
+  const fetchRegister = async (data: any) => {
     const requestOptions = {
       method: 'POST',
       'mode': 'cors',
@@ -34,11 +28,52 @@ const RegisterModal = () => {
     localStorage.setItem('token', user.access_token);
   }
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const res = await fetchRegister({ name, email, password })
-    console.log(res)
-  }
+  const validationSchema = yup.object().shape({
+    name: 
+      yup.string()
+        .required('campo obligatorio')
+        .min(4, 'Mínimo 4 caracteres')
+        .max(24, 'Máximo 24 caracteres'),
+    email: 
+      yup.string()
+        .required('Campo obligatorio')
+        .max(32, 'Máximo 32 caracteres')
+        .email('Email inválido'),
+    password: 
+      yup.string()
+        .min(4, 'Mínimo 4 caracteres')
+        .max(25, 'Máximo 32 caracteres')
+        .required('Campo obligatorio'),
+    repeatPassword:
+      yup.string()
+        .required('Campo obligatorio')
+        .min(4, 'Mínimo 4 caracteres')
+        .max(25, 'Máximo 32 caracteres')
+        .oneOf([yup.ref('password')], 'Las contraseñas no coinciden'),
+  })
+
+  
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      password: '',
+      repeatPassword: '',
+      email: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        alert(JSON.stringify(values, null, 2));
+
+        const res = await fetchRegister(values);
+        console.log(res)
+      } catch(e) {
+        console.log(e)
+      }
+    }
+  })
+
+  const { errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
 
   return (
     <>
@@ -83,9 +118,12 @@ const RegisterModal = () => {
                           type="text"
                           name="name"
                           id="name"
-                          value={name}
-                          onChange={onInputChange}
-                          placeholder="John Doe" required />
+                          onChange={handleChange}
+                          value={values.name}
+                          onBlur={handleBlur}
+                          placeholder="John Doe" 
+                        />
+                        {errors.name && touched.name && <p className='py-2 text-red-600 text-sm'>{errors.name}</p>}
                       </div>
                       <div>
                         <label
@@ -98,9 +136,11 @@ const RegisterModal = () => {
                           type="email"
                           name="email"
                           id="email"
-                          value={email}
-                          onChange={onInputChange}
-                          placeholder="john@gmail.com" required />
+                          onChange={handleChange}
+                          value={values.email}
+                          onBlur={handleBlur}
+                          placeholder="john@gmail.com" />
+                          {errors.email && touched.email && <p className='py-2 text-red-600 text-sm'>{errors.email}</p>}
                       </div>
                       <div>
                         <label
@@ -113,10 +153,30 @@ const RegisterModal = () => {
                           type="password"
                           name="password"
                           id="password"
-                          value={password}
-                          onChange={onInputChange}
+                          onChange={handleChange}
+                          value={values.password}
+                          onBlur={handleBlur}
                           placeholder="••••••••"
                         />
+                        {errors.password && touched.password && <p className='py-2 text-red-600 text-sm'>{errors.password}</p>}
+                      </div>
+                      <div>
+                        <label
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                          htmlFor="repeatPassword" >
+                          Repetir Contraseña
+                        </label>
+                        <input
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required
+                          type="password"
+                          name="repeatPassword"
+                          id="repeatPassword"
+                          onChange={handleChange}
+                          value={values.repeatPassword}
+                          onBlur={handleBlur}
+                          placeholder="••••••••"
+                        />
+                        {errors.repeatPassword && touched.repeatPassword && <p className='py-2 text-red-600 text-sm'>{errors.repeatPassword}</p>}
                       </div>
                       <Button
                         type={'submit'}
@@ -139,12 +199,3 @@ const RegisterModal = () => {
 }
 
 export default RegisterModal
-
-import React from "react";
-import Link from 'next/link'
-import { useForm } from '../utils/form';
-
-interface Props {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}

@@ -2,12 +2,46 @@
 import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
-// import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { useFormik } from 'formik';
+import * as yup from 'yup'
 
 const LoginModal = () => {
   const [open, setOpen] = useState(false)
 
   const cancelButtonRef = useRef(null)
+
+  const validationSchema = yup.object().shape({
+    email: 
+      yup.string()
+        .required('Campo obligatorio')
+        .max(32, 'Máximo 32 caracteres')
+        .email('Email inválido'),
+    password: 
+      yup.string()
+        .min(4, 'Mínimo 4 caracteres')
+        .max(25, 'Máximo 32 caracteres')
+        .required('Campo obligatorio'),
+  })
+
+  const formik = useFormik({
+    initialValues: {
+      password: '',
+      email: '',
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        alert(JSON.stringify(values, null, 2));
+
+    
+      } catch(e) {
+        console.log(e)
+      }
+    }
+  })
+
+  const { errors, values, handleChange, handleSubmit, handleBlur, touched } = formik
+
   return (
     <>
       <Button theme={'secundary'} onClick={() => { setOpen(true) }}>Login</Button>
@@ -39,7 +73,7 @@ const LoginModal = () => {
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="px-6 py-6 lg:px-8 ">
                     <h3 className="mb-4 text-xl font-medium text-gray-900 ">Login</h3>
-                    <form className="space-y-6" action="#">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
                       <div>
                         <label
                           className="block mb-2 text-sm font-medium text-gray-900 "
@@ -51,7 +85,12 @@ const LoginModal = () => {
                           type="email"
                           name="email"
                           id="email"
-                          placeholder="john@gmail.com" required />
+                          placeholder="john@gmail.com"
+                          onChange={handleChange}
+                          value={values.email}
+                          onBlur={handleBlur} 
+                        />
+                        {errors.email && touched.email && <p className='py-2 text-red-600 text-sm'>{errors.email}</p>}
                       </div>
                       <div>
                         <label
@@ -65,9 +104,17 @@ const LoginModal = () => {
                           name="password"
                           id="password"
                           placeholder="••••••••"
+                          onChange={handleChange}
+                          value={values.password}
+                          onBlur={handleBlur}
                         />
+                        {errors.password && touched.password && <p className='py-2 text-red-600 text-sm'>{errors.password}</p>}
                       </div>
-                      <Button theme={'primary'} onClick={() => { setOpen(false) }}>Iniciar Sesion!</Button>
+                      <Button
+                        type={'submit'}
+                        theme={'primary'}>
+                        Iniciar Sesion!
+                      </Button>
                       <div className="text-sm font-medium text-gray-500">
                         ¿Aún no tienes cuenta? <Link href="#" className="text-orange-700 hover:underline">Registrarse!</Link>
                       </div>
