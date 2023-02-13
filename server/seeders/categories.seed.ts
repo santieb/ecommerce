@@ -3,7 +3,7 @@ export const CategoriesSeed = [
     name: 'Mas vendidos',
   },
   {
-    name: 'Nuestro menu',
+    name: 'Principales',
   },
   {
     name: 'Acompañamiento',
