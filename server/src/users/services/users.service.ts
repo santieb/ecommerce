@@ -46,6 +46,7 @@ export class UsersService {
 
   async login(email: string, pass: string) {
     const user = await this.validateUser(email, pass);
+    console.log(email, pass, user)
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -66,7 +67,6 @@ export class UsersService {
     const userFound = await this.userRepository.findOne({
       where: { email: email },
     });
-
     if (!userFound) return null;
 
     const isMatch = await bcrypt.compare(pass, userFound.password);
