@@ -17,8 +17,13 @@ export class seeds1673367890326 implements MigrationInterface {
       .createQueryBuilder()
       .getMany();
 
-    ProductsSeed[0].category = categories[0];
-    ProductsSeed[1].category = categories[1];
+    ProductsSeed.map((product) => {
+      categories.forEach((category) => {
+        if (product.categoryName === category.name)
+          product.categoryName = category;
+      });
+      return product;
+    });
 
     await AppDataSource.createQueryBuilder()
       .insert()

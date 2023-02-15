@@ -4,6 +4,7 @@ export const ProductsSeed: any = [
     price: 1700,
     description: 'Hamburguesa con queso cheddar, lechuga, tomate y pan de papa',
     image: 'https://i.imgur.com/a2bbWCB.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Hamburguesa triple',
@@ -11,6 +12,7 @@ export const ProductsSeed: any = [
     description:
       'Hamburguesa triple carne, doble queso, lechuga, tomate, aros de cebolla y pan de papa',
     image: 'https://i.imgur.com/oQ1hqAY.png',
+    categoryName: 'Principales',
   },
   {
     name: 'Hamburguesa vegana con papas',
@@ -18,12 +20,14 @@ export const ProductsSeed: any = [
     description:
       'Hamburguesa vegana de soja con cebolla, tomate, pan de papa y papas fritas',
     image: 'https://i.imgur.com/QemObgA.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Lasaña',
     price: 1250,
     description: 'Plato tradicional de la cocina italiana',
     image: 'https://i.imgur.com/oZqi0gJ.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Parrilla completa',
@@ -31,18 +35,21 @@ export const ProductsSeed: any = [
     description:
       'Parrilla con chorizo, morcilla, chinchulín, asado, vacío y bondiola para 2 personas',
     image: 'https://i.imgur.com/whrvYUE.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Milanesa napolitana con papas',
     price: 1500,
     description: 'Milanesa de carne con jamon, queso y tomate con papas fritas',
     image: 'https://i.imgur.com/zwzCJqb.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Empanadas de carne',
     price: 600,
     description: '3 empanadas de carne cortada a cuchillo',
     image: 'https://i.imgur.com/DiQyI6U.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Pizza fugazetta',
@@ -50,37 +57,43 @@ export const ProductsSeed: any = [
     description:
       'Pizza de cebolla y queso parmesano, rellena de mozzarella y jamon',
     image: 'https://i.imgur.com/OsW0VI8.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Pizza napolitana',
     price: 1500,
     description: 'Pizza de mozzarella, tomate y albahaca',
     image: 'https://i.imgur.com/murHqD3.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Pizza calabresa',
     price: 1500,
     description:
       'Pizza de mozzarella y de longaniza calabresa cortada en rodajas',
-      image: 'https://i.imgur.com/RPOzxot.png',
+    image: 'https://i.imgur.com/RPOzxot.png',
+    categoryName: 'Principales',
   },
   {
     name: 'Pizza mozzarella',
     price: 1500,
     description: 'Pizza clasica de mozzarella con aceitunas',
     image: 'https://i.imgur.com/3GY8bNO.jpg',
+    categoryName: 'Principales',
   },
   {
     name: 'Papas fritas',
     price: 750,
     description: 'Porcion grande de papas fritas caseras',
     image: 'https://i.imgur.com/ErWikmT.jpg',
+    categoryName: 'Acompañamiento',
   },
   {
     name: 'Rabas',
     price: 900,
     description: 'Porcion grandede rabas de calamar rebozadas',
     image: 'https://i.imgur.com/egRocL8.png',
+    categoryName: 'Acompañamiento',
   },
   {
     name: 'Ensalada Caprese',
@@ -88,47 +101,55 @@ export const ProductsSeed: any = [
     description: 'Ensalada de tomate, mozzarella y albahaca',
     image:
       'https://deliciaskitchen.com/wp-content/uploads/2022/07/ensalada-caprese-receta-original-italiana.jpg',
+    categoryName: 'Acompañamiento',
   },
   {
     name: 'Bastones de mozarella',
     price: 700,
     description: 'Porcion grande de bastones de mozarella',
     image: 'https://i.imgur.com/pNaruVa.jpg',
+    categoryName: 'Acompañamiento',
   },
   {
     name: 'Coca-Cola',
     price: 600,
     description: 'Lata de coca-cola 500ml',
     image: 'https://i.imgur.com/egRocL8.png',
+    categoryName: 'Bebidas',
   },
   {
     name: 'Agua mineral',
     price: 500,
     description: 'Agua mineral Villavicencio, sin gas ',
     image: 'https://i.imgur.com/6S7cxJP.jpg',
+    categoryName: 'Bebidas',
   },
   {
     name: 'Flan casero',
     price: 900,
     description: 'Flan casero con dulce de leche',
     image: 'https://i.imgur.com/fjbMU4A.jpg',
+    categoryName: 'Bebidas',
   },
   {
     name: 'Tiramisú',
     price: 1000,
     description: 'Torta tiramisu',
     image: 'https://i.imgur.com/vKSDZoU.jpg',
+    categoryName: 'Postres',
   },
   {
     name: 'Chesscake',
     price: 1000,
     description: 'Chesscake con frutos rojos',
     image: 'https://i.imgur.com/lCiVHlZ.jpg',
+    categoryName: 'Postres',
   },
   {
     name: 'Helado',
     price: 800,
     description: 'Helado de chocolate y vainilla',
     image: 'https://i.imgur.com/lCiVHlZ.jpg',
+    categoryName: 'Postres',
   },
 ];
