@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
+import Link from 'next/link'
 
 const Gallery = () => {
   return (
@@ -21,7 +22,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+          <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -39,7 +40,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div
@@ -53,7 +54,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+          <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -71,7 +72,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div
@@ -85,7 +86,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+           <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -103,7 +104,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div
@@ -117,7 +118,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+            <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -135,7 +136,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div
@@ -149,7 +150,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+           <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -167,7 +168,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
 
         <div
@@ -181,7 +182,7 @@ const Gallery = () => {
             height="500"
             alt=""
           />
-          <a href="#!">
+           <Link href="products">
             <div
               className="absolute top-0 right-0 bottom-0 left-0 w-full h-full overflow-hidden bg-fixed"
               style={{ "backgroundColor": "rgba(0, 0, 0, 0.3)" }}
@@ -199,7 +200,7 @@ const Gallery = () => {
               >
               </div>
             </div>
-          </a>
+          </Link>
         </div>
       </div>
     </section>

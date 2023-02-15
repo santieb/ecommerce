@@ -1,5 +1,4 @@
-import { Controller, Post, UseGuards, Body, Req } from '@nestjs/common';
-import { Get } from '@nestjs/common/decorators/http/request-mapping.decorator';
+import { Controller, Post, UseGuards, Body, Req, Get } from '@nestjs/common';
 import { RolesGuard } from 'src/users/helpers/role.guard';
 import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
 import { AddOrderDto } from '../dto/addOrder.dto';

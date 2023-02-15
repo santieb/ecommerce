@@ -1,8 +1,17 @@
 export const CategoriesSeed = [
   {
-    name: 'Food',
+    name: 'Mas vendidos',
   },
   {
-    name: 'Beverages',
+    name: 'Principales',
+  },
+  {
+    name: 'Acompañamiento',
+  },
+  {
+    name: 'Bebidas',
+  },
+  {
+    name: 'Postres',
   },
 ];

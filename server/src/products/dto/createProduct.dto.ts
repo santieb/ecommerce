@@ -15,5 +15,7 @@ export class CreateProductDto {
   @MaxLength(150)
   description: string;
 
+  image: string;
+
   category: CategoriesEntity;
 }
