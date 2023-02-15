@@ -19,8 +19,7 @@ export class seeds1673367890326 implements MigrationInterface {
 
     ProductsSeed.map((product) => {
       categories.forEach((category) => {
-        if (product.categoryName === category.name)
-          product.categoryName = category;
+        if (product.categoryName === category.name) product.category = category;
       });
       return product;
     });
