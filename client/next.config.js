@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   images: {
-    domains: ['mdbootstrap.com', 'encrypted-tbn0.gstatic.com', 'insanelygoodrecipes.com'],
+    domains: ['mdbootstrap.com', 'encrypted-tbn0.gstatic.com', 'insanelygoodrecipes.com', 'i.imgur.com'],
   },
 }
 
