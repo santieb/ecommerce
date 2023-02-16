@@ -13,8 +13,9 @@ export default function Modal({showModal, setShowModal, product}) {
   
   const addCart = useCartStore((state) => state.addCart)
 
-  const addToCart = (id, amount,name, notes) => {
-    addCart(id, amount, name, notes)
+  const addToCart = (product, amount, notes) => {
+    console.log(product)
+    addCart(product, amount, notes)
     setShowModal(false)
   }
 
@@ -91,7 +92,7 @@ export default function Modal({showModal, setShowModal, product}) {
                   <button
                     className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-orange-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
                     type="button"
-                    onClick={() => addToCart(product.id, product.name, amount, notes)}
+                    onClick={() => addToCart(product, amount, notes)}
                   >
                     <span>{amount}</span>
                     <span> Agregar a mi pedido </span>
