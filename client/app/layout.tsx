@@ -15,9 +15,6 @@ export default function RootLayout({
       const token = localStorage.getItem('token')
 
       if (!token) return console.log('no tiene token')
-
-
-
       try {
         const config = { 
           headers: {
@@ -25,9 +22,9 @@ export default function RootLayout({
             Authorization: `Bearer ${token}`
           }
         }
-      
         const res = await fetch('http://localhost:3000/api/users/profile', config)
         const userLogged = await res.json()
+        console.log(userLogged)
         setUser(userLogged)
       } catch (e) {
         setUser({})

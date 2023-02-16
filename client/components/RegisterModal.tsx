@@ -5,29 +5,16 @@ import { Button } from './Button'
 import { useFormik } from 'formik';
 import Link from 'next/link';
 import * as yup from 'yup'
+import instance from '../utils/instance';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
  
 const RegisterModal = () => {
   const [open, setOpen] = useState(false)
+  const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
   
-  const fetchRegister = async (data: any) => {
-    const requestOptions = {
-      method: 'POST',
-      'mode': 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    }
-
-    const res = await fetch('http://localhost:3000/api/users/register', requestOptions)
-    const user = await res.json()
-
-    localStorage.setItem('token', user.access_token);
-  }
-
   const validationSchema = yup.object().shape({
     name: 
       yup.string()
@@ -65,8 +52,13 @@ const RegisterModal = () => {
       try {
         alert(JSON.stringify(values, null, 2));
 
-        const res = await fetchRegister(values);
+        const res = await instance.post('/users/register', values)
         console.log(res)
+        localStorage.setItem('token', res.data.access_token);
+        setOpen(false)
+        toast.success('Cuenta creada correctamente !', {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       } catch(e) {
         console.log(e)
       }
@@ -78,6 +70,7 @@ const RegisterModal = () => {
   return (
     <>
       <Button theme={'primary'} onClick={() => { setOpen(true) }}>Registrarse</Button>
+      <ToastContainer />
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
           <Transition.Child
@@ -183,6 +176,7 @@ const RegisterModal = () => {
                         theme={'primary'}>
                         Registrarse!
                       </Button>
+                      {error ? <p className='py-2 text-red-600 text-md'>Las cuenta ya existe</p> : null}
                       <div className="text-sm font-medium text-gray-500">
                         ¿Ya tienes una cuenta? <Link href="#" className="text-orange-700 hover:underline">Iniciar sesion!</Link>
                       </div>

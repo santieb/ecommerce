@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const localURlApi = process.env.NEXT_PUBLIC_LOCAL_API
+const localURlApi = 'http://localhost:3000/api'
 const URlApi = process.env.NEXT_PUBLIC_API
 
 const instance = axios.create({

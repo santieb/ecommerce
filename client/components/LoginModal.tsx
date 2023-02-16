@@ -4,9 +4,14 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
 import { useFormik } from 'formik';
 import * as yup from 'yup'
+import instance from '../utils/instance';
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 const LoginModal = () => {
   const [open, setOpen] = useState(false)
+  const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
 
@@ -32,10 +37,19 @@ const LoginModal = () => {
     onSubmit: async (values) => {
       try {
         alert(JSON.stringify(values, null, 2));
-
-    
+        const res = await instance.post('/users/login', values)
+        console.log(res)
+        localStorage.setItem('token', res.access_token);
+        
+       setOpen(false)
+       toast.success('Sesion iniciada correctamente !', {
+        position: toast.POSITION.BOTTOM_CENTER
+      });
       } catch(e) {
-        console.log(e)
+        setError(true)
+        setTimeout(()=> {
+          setError(false)
+        },3000)
       }
     }
   })
@@ -115,9 +129,7 @@ const LoginModal = () => {
                         theme={'primary'}>
                         Iniciar Sesion!
                       </Button>
-                      <div className="text-sm font-medium text-gray-500">
-                        ¿Aún no tienes cuenta? <Link href="#" className="text-orange-700 hover:underline">Registrarse!</Link>
-                      </div>
+                      {error ? <p className='py-2 text-red-600 text-md'>Las creedenciales no coinciden</p> : null}
                   </form>
                   </div>
                 </Dialog.Panel>
@@ -131,9 +143,6 @@ const LoginModal = () => {
 }
 
 export default LoginModal
-
-import React from "react";
-import Link from 'next/link'
 
 interface Props {
   showModal: boolean;

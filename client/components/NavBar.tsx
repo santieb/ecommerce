@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
-import { Button } from './Button'
 import LoginModal from './LoginModal'
 import RegisterModal from './RegisterModal'
 
 const NavBar = () => {
+
   return (
     <nav className="navbar navbar-expand-lg shadow-md py-2 bg-white relative flex items-center w-full justify-between">
       <div className="px-6 w-full flex flex-wrap items-center justify-between">

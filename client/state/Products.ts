@@ -1,14 +1,9 @@
 import { create } from 'zustand'
 import axios from 'axios'
 
-interface ProductState {
-  products: [];
-  getProducts: () => Promise<void>;
-}
-
-interface CategoriesState {
-  categories: [];
-  getCategories: () => Promise<void>;
+interface UserStore {
+  user: {};
+  getUser: () => Promise<void>;
 }
 
 interface CartState {
@@ -16,24 +11,12 @@ interface CartState {
   addCart: () => void;
 }
 
-export const useProductStore = create<ProductState>((set) => ({
-  products: [],
-  getProducts: async () => {
+export const useUserStore = create((set) => ({
+  user: {},
+  getUser: async () => {
     try {
-      const products = await axios('http://localhost:3000/api/products')
-      set({products: products.data});
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}))
-
-export const useCategoriesStore = create<CategoriesState>(set => ({
-  categories: [],
-  getCategories: async () => {
-    try {
-      const categories = await axios('http://localhost:3000/api/categories')
-      set({categories: categories.data});
+      const user = await axios('http://localhost:3000/user/profile')
+      set({user: user.data});
     } catch (error) {
       console.log(error)
     }
