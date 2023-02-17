@@ -12,9 +12,18 @@ export default function Modal({showModal, setShowModal, product}) {
   const [notes, setNotes] = useState('')
   
   const addCart = useCartStore((state) => state.addCart)
+  const updateCart = useCartStore((state) => state.updateCart)
+  const cart = useCartStore((state) => state.cart)
 
   const addToCart = (product, amount, notes) => {
-    console.log(product)
+    const productFindedIndex = cart.findIndex(productFinded => productFinded.product.name === product.name)
+
+    console.log("index", productFindedIndex)
+    if (productFindedIndex !== -1) {
+      updateCart(productFindedIndex, amount, notes)
+      return setShowModal(false)
+    }
+
     addCart(product, amount, notes)
     setShowModal(false)
   }

@@ -45,6 +45,13 @@ export const useCartStore = create((set, get) => ({
   addCart: (product, amount, notes) => {
     const { cart } = get();
     set({ cart: [...cart,  {product, amount, notes}]  })
-  }
-    
+  },
+  updateCart: (productIndex: number, amount: number, notes: string) => {
+    const { cart } = get();
+    const cartUpdated = cart
+    cartUpdated[productIndex].amount = amount
+    cartUpdated[productIndex].notes = notes
+    console.log("updated", cartUpdated)
+    return set({cartUpdated})
+  },
 }))
