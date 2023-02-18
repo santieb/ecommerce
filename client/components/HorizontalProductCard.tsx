@@ -1,7 +1,7 @@
 'use client'
 import React, {useState} from 'react'
 import Modal from './Modal'
-
+import truncateString from '../utils/truncateString';
 
 const HorizontalProductCard = ({product}) => {
   const [showModal, setShowModal] = useState(false);
@@ -16,8 +16,8 @@ const HorizontalProductCard = ({product}) => {
             </img>
         </div> 
         <div className=" flex flex-col jusify-between w-2/3 p-4">
-          <h4 className="text-gray-900 font-medium">{name}</h4>
-          <p className="text-gray-700 text-sm"> {description}</p>
+          <h4 className="text-gray-900 font-medium">{truncateString(name, 50)}</h4>
+          <p className="text-gray-700 text-sm"> {truncateString(description, 80)}</p>
           <div className="flex item-center justify-between mt-3">
             <h4 className="text-xl font-medium">${price}</h4>
           </div>
