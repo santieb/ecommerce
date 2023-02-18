@@ -16,11 +16,10 @@ export default function Modal({showModal, setShowModal, product}) {
   const cart = useCartStore((state) => state.cart)
 
   const addToCart = (product, amount, notes) => {
-    const productFindedIndex = cart.findIndex(productFinded => productFinded.product.name === product.name)
+    const orderExists = cart.find(order => order.product.name === product.name)
 
-    console.log("index", productFindedIndex)
-    if (productFindedIndex !== -1) {
-      updateCart(productFindedIndex, amount, notes)
+    if (orderExists) {
+      updateCart(orderExists.product, amount, notes)
       return setShowModal(false)
     }
 
@@ -53,7 +52,7 @@ export default function Modal({showModal, setShowModal, product}) {
                  
               </div>
                 <picture className="">
-                  <img className='bg-cover w-full h-72 object-cover' src="https://images.deliveryhero.io/image/pedidosya/products/a61d673f-87d9-47e1-8cf9-b44ce5e42dec.jpg?quality=90&width=1920&webp=1"/>
+                  <img className='bg-cover w-full h-72 object-cover' src={product.image}/>
                 </picture>
                 <div className="relative p-4 flex-auto">
                   <div className="p-4 bg-white rounded-lg mb-4 shadow-md">
