@@ -12,9 +12,18 @@ export default function Modal({showModal, setShowModal, product}) {
   const [notes, setNotes] = useState('')
   
   const addCart = useCartStore((state) => state.addCart)
+  const updateCart = useCartStore((state) => state.updateCart)
+  const cart = useCartStore((state) => state.cart)
 
-  const addToCart = (id, amount,name, notes) => {
-    addCart(id, amount, name, notes)
+  const addToCart = (product, amount, notes) => {
+    const orderExists = cart.find(order => order.product.name === product.name)
+
+    if (orderExists) {
+      updateCart(orderExists.product, amount, notes)
+      return setShowModal(false)
+    }
+
+    addCart(product, amount, notes)
     setShowModal(false)
   }
 
@@ -43,7 +52,7 @@ export default function Modal({showModal, setShowModal, product}) {
                  
               </div>
                 <picture className="">
-                  <img className='bg-cover w-full h-72 object-cover' src="https://images.deliveryhero.io/image/pedidosya/products/a61d673f-87d9-47e1-8cf9-b44ce5e42dec.jpg?quality=90&width=1920&webp=1"/>
+                  <img className='bg-cover w-full h-72 object-cover' src={product.image}/>
                 </picture>
                 <div className="relative p-4 flex-auto">
                   <div className="p-4 bg-white rounded-lg mb-4 shadow-md">
@@ -91,7 +100,7 @@ export default function Modal({showModal, setShowModal, product}) {
                   <button
                     className="w-2/3 flex items-center justify-between text-white border rounded-xl bg-orange-500 background-transparent font-bold uppercase px-6 py-3 text-sm outline-none  "
                     type="button"
-                    onClick={() => addToCart(product.id, product.name, amount, notes)}
+                    onClick={() => addToCart(product, amount, notes)}
                   >
                     <span>{amount}</span>
                     <span> Agregar a mi pedido </span>
