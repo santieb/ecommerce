@@ -46,12 +46,8 @@ export const useCartStore = create((set, get) => ({
     const { cart } = get();
     set({ cart: [...cart,  {product, amount, notes}]  })
   },
-  updateCart: (productIndex: number, amount: number, notes: string) => {
-    const { cart } = get();
-    const cartUpdated = cart
-    cartUpdated[productIndex].amount = amount
-    cartUpdated[productIndex].notes = notes
-    console.log("updated", cartUpdated)
-    return set({cartUpdated})
-  },
+  updateCart: (product, amount: number, notes: string) => 
+    set((state) => ({
+      cart: state.cart.map(order => order.product == product ? {...order, amount, notes} : order)
+    }))
 }))
