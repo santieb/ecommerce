@@ -49,5 +49,9 @@ export const useCartStore = create((set, get) => ({
   updateCart: (product, amount: number, notes: string) => 
     set((state) => ({
       cart: state.cart.map(order => order.product == product ? {...order, amount, notes} : order)
-    }))
+    })),
+  removeProduct: (product) => 
+    set((state) => ({
+    cart: state.cart.filter(order => order.product !== product)
+    })),
 }))
