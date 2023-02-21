@@ -14,6 +14,9 @@ export class ProductsEntity extends BaseEntity {
   @Column()
   description: string;
 
+  @Column()
+  image: string;
+
   @ManyToOne(() => CategoriesEntity, (category) => category.products)
   category: CategoriesEntity;
 

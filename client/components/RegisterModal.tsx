@@ -15,6 +15,7 @@ const RegisterModal = () => {
   const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
+
   const { getUser } = useUserStore((state) => state.getUser)
   
   const validationSchema = yup.object().shape({

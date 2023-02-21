@@ -35,9 +35,16 @@ export const useUserStore = create((set) => ({
 
 export const useCartStore = create((set, get) => ({
   cart: [],
-  addCart: (id, amount, name, notes) => {
+  addCart: (product, amount, notes) => {
     const { cart } = get();
-    set({ cart: [...cart,  {id, amount, name, notes}]  })
-  }
-    
+    set({ cart: [...cart,  {product, amount, notes}]  })
+  },
+  updateCart: (product, amount: number, notes: string) => 
+    set((state) => ({
+      cart: state.cart.map(order => order.product == product ? {...order, amount, notes} : order)
+    })),
+  removeProduct: (product) => 
+    set((state) => ({
+    cart: state.cart.filter(order => order.product !== product)
+    })),
 }))
