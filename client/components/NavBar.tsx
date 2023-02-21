@@ -20,7 +20,7 @@ const NavBar = () => {
         </div>
         <div className="flex items-center lg:ml-auto">
           {
-            user.name ? <Link href={'/profile'}className='flex p-2 rounded items-center active:bg-gray-200 bg-transparent text-orange-600 hover:text-orange-700 hover:bg-gray-100 focus:bg-gray-100'  >
+            user?.name ? <Link href={'/profile'}className='flex p-2 rounded items-center active:bg-gray-200 bg-transparent text-orange-600 hover:text-orange-700 hover:bg-gray-100 focus:bg-gray-100'  >
               <span className='text-gray-600 mr-2'> {user.name } </span> <BsPersonCircle className="text-2xl text-orange-600"/> 
             </Link> 
             :
