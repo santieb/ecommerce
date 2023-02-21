@@ -22,10 +22,10 @@ const Accordion = ({ title, content }: AccordionProps) => {
   const user = useUserStore((state) => state.user)
   console.log('request', user)
 
-  useEffect(() => {
+  /*useEffect(() => {
     if (user.isAdmin === false)
       redirect('/products');
-  }, []);
+  }, []);*/
 
   return (
     <>
