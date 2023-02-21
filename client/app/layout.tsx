@@ -1,4 +1,7 @@
+'use client'
+import { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
+import { useUserStore } from '../state/Products'
 import './globals.css'
 
 export default function RootLayout({
@@ -6,6 +9,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  
+  const { getUser } = useUserStore()
+
+  useEffect(() => {
+    getUser()
+  }, []);
   return (
     <html lang="en">
       <head>

@@ -3,21 +3,26 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Button } from './Button'
 import { useFormik } from 'formik';
+import Link from 'next/link';
 import * as yup from 'yup'
 import instance from '../utils/instance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { useUserStore } from '../state/Products'
-
-
-const LoginModal = () => {
+ 
+const RegisterModal = () => {
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
-  const { getUser } = useUserStore()
-
+  const { getUser } = useUserStore((state) => state.user)
+  
   const validationSchema = yup.object().shape({
+    name: 
+      yup.string()
+        .required('campo obligatorio')
+        .min(4, 'Mínimo 4 caracteres')
+        .max(24, 'Máximo 24 caracteres'),
     email: 
       yup.string()
         .required('Campo obligatorio')
@@ -28,30 +33,35 @@ const LoginModal = () => {
         .min(4, 'Mínimo 4 caracteres')
         .max(25, 'Máximo 32 caracteres')
         .required('Campo obligatorio'),
+    repeatPassword:
+      yup.string()
+        .required('Campo obligatorio')
+        .min(4, 'Mínimo 4 caracteres')
+        .max(25, 'Máximo 32 caracteres')
+        .oneOf([yup.ref('password')], 'Las contraseñas no coinciden'),
   })
 
+  
   const formik = useFormik({
     initialValues: {
+      name: '',
       password: '',
+      repeatPassword: '',
       email: '',
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { data } = await instance.post('/users/login', values)
-        console.log(data)
-        localStorage.setItem('token', data.access_token);
-        
-       setOpen(false)
-       getUser()
-       toast.success('Sesion iniciada correctamente !', {
-        position: toast.POSITION.BOTTOM_CENTER
-      });
+        const res = await instance.post('/users/register', values)
+        console.log(res)
+        localStorage.setItem('token', res.data.access_token);
+        setOpen(false)
+        getUser()
+        toast.success('Cuenta creada correctamente !', {
+          position: toast.POSITION.BOTTOM_CENTER
+        });
       } catch(e) {
-        setError(true)
-        setTimeout(()=> {
-          setError(false)
-        },3000)
+        console.log(e)
       }
     }
   })
@@ -60,7 +70,8 @@ const LoginModal = () => {
 
   return (
     <>
-      <Button theme={'secundary'} onClick={() => { setOpen(true) }}>Login</Button>
+      <Button theme={'primary'} onClick={() => { setOpen(true) }}>Registrarse</Button>
+      <ToastContainer />
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-10" initialFocus={cancelButtonRef} onClose={setOpen}>
           <Transition.Child
@@ -88,8 +99,26 @@ const LoginModal = () => {
               >
                 <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                   <div className="px-6 py-6 lg:px-8 ">
-                    <h3 className="mb-4 text-xl font-medium text-gray-900 ">Login</h3>
-                    <form className="space-y-6" onSubmit={handleSubmit}>
+                    <h3 className="mb-4 text-xl font-medium text-gray-900 ">Registrarse</h3>
+                    <form onSubmit={handleSubmit} className="space-y-6" action="#">
+                      <div>
+                        <label
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                          htmlFor="name" >
+                          Nombre
+                        </label>
+                        <input
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                          type="text"
+                          name="name"
+                          id="name"
+                          onChange={handleChange}
+                          value={values.name}
+                          onBlur={handleBlur}
+                          placeholder="John Doe" 
+                        />
+                        {errors.name && touched.name && <p className='py-2 text-red-600 text-sm'>{errors.name}</p>}
+                      </div>
                       <div>
                         <label
                           className="block mb-2 text-sm font-medium text-gray-900 "
@@ -101,12 +130,11 @@ const LoginModal = () => {
                           type="email"
                           name="email"
                           id="email"
-                          placeholder="john@gmail.com"
                           onChange={handleChange}
                           value={values.email}
-                          onBlur={handleBlur} 
-                        />
-                        {errors.email && touched.email && <p className='py-2 text-red-600 text-sm'>{errors.email}</p>}
+                          onBlur={handleBlur}
+                          placeholder="john@gmail.com" />
+                          {errors.email && touched.email && <p className='py-2 text-red-600 text-sm'>{errors.email}</p>}
                       </div>
                       <div>
                         <label
@@ -119,20 +147,41 @@ const LoginModal = () => {
                           type="password"
                           name="password"
                           id="password"
-                          placeholder="••••••••"
                           onChange={handleChange}
                           value={values.password}
                           onBlur={handleBlur}
+                          placeholder="••••••••"
                         />
                         {errors.password && touched.password && <p className='py-2 text-red-600 text-sm'>{errors.password}</p>}
+                      </div>
+                      <div>
+                        <label
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                          htmlFor="repeatPassword" >
+                          Repetir Contraseña
+                        </label>
+                        <input
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required
+                          type="password"
+                          name="repeatPassword"
+                          id="repeatPassword"
+                          onChange={handleChange}
+                          value={values.repeatPassword}
+                          onBlur={handleBlur}
+                          placeholder="••••••••"
+                        />
+                        {errors.repeatPassword && touched.repeatPassword && <p className='py-2 text-red-600 text-sm'>{errors.repeatPassword}</p>}
                       </div>
                       <Button
                         type={'submit'}
                         theme={'primary'}>
-                        Iniciar Sesion!
+                        Registrarse!
                       </Button>
-                      {error ? <p className='py-2 text-red-600 text-md'>Las creedenciales no coinciden</p> : null}
-                  </form>
+                      {error ? <p className='py-2 text-red-600 text-md'>Las cuenta ya existe</p> : null}
+                      <div className="text-sm font-medium text-gray-500">
+                        ¿Ya tienes una cuenta? <Link href="#" className="text-orange-700 hover:underline">Iniciar sesion!</Link>
+                      </div>
+                    </form>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>
@@ -144,9 +193,4 @@ const LoginModal = () => {
   );
 }
 
-export default LoginModal
-
-interface Props {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-}
+export default RegisterModal

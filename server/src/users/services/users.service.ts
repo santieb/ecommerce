@@ -27,12 +27,26 @@ export class UsersService {
     if (userFound)
       return new HttpException('User already exists', HttpStatus.CONFLICT);
 
-    const newUser = this.userRepository.create(user);
-    return this.userRepository.save(newUser);
+    const newUser = await this.userRepository.create(user);
+    const userSaved = await this.userRepository.save(newUser);
+
+    const payload = {
+      name: userSaved.name,
+      id: userSaved.id,
+      isAdmin: userSaved.isAdmin,
+    };
+
+    const { password, ...userWithoutPassword } = userSaved;
+
+    return {
+      user: userWithoutPassword,
+      access_token: this.jwtService.sign(payload),
+    };
   }
 
   async login(email: string, pass: string) {
     const user = await this.validateUser(email, pass);
+    console.log(email, pass, user)
     if (!user) {
       throw new UnauthorizedException();
     }
@@ -53,7 +67,6 @@ export class UsersService {
     const userFound = await this.userRepository.findOne({
       where: { email: email },
     });
-
     if (!userFound) return null;
 
     const isMatch = await bcrypt.compare(pass, userFound.password);

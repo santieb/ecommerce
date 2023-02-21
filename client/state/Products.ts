@@ -1,14 +1,9 @@
-import { create } from 'zustand'
+import zustand, { create } from 'zustand'
 import axios from 'axios'
 
-interface ProductState {
-  products: [];
-  getProducts: () => Promise<void>;
-}
-
-interface CategoriesState {
-  categories: [];
-  getCategories: () => Promise<void>;
+interface UserStore {
+  user: {};
+  getUser: () => Promise<void>;
 }
 
 interface CartState {
@@ -16,27 +11,25 @@ interface CartState {
   addCart: () => void;
 }
 
-export const useProductStore = create<ProductState>((set) => ({
-  products: [],
-  getProducts: async () => {
-    try {
-      const products = await axios('http://localhost:3000/api/products')
-      set({products: products.data});
-    } catch (error) {
-      console.log(error)
-    }
-  }
-}))
+export const useUserStore = create((set) => ({
+  user: {},
+  getUser: async () => {
+    const token = localStorage.getItem('token')
+    if (!token) return console.log('no tiene token')
 
-export const useCategoriesStore = create<CategoriesState>(set => ({
-  categories: [],
-  getCategories: async () => {
     try {
-      const categories = await axios('http://localhost:3000/api/categories')
-      set({categories: categories.data});
-    } catch (error) {
-      console.log(error)
-    }
+      const config = { 
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const { data } = await axios('http://localhost:3000/api/users/profile', config)
+      console.log(data, 'zustand')
+      set({user: data});
+    } catch (e) {
+      set({user: null});
+    }  
   }
 }))
 
