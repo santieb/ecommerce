@@ -1,4 +1,4 @@
-import { create } from 'zustand'
+import zustand, { create } from 'zustand'
 import axios from 'axios'
 
 interface UserStore {
@@ -14,12 +14,22 @@ interface CartState {
 export const useUserStore = create((set) => ({
   user: {},
   getUser: async () => {
+    const token = localStorage.getItem('token')
+    if (!token) return console.log('no tiene token')
+
     try {
-      const user = await axios('http://localhost:3000/user/profile')
-      set({user: user.data});
-    } catch (error) {
-      console.log(error)
-    }
+      const config = { 
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const { data } = await axios('http://localhost:3000/api/users/profile', config)
+      console.log(data, 'zustand')
+      set({user: data});
+    } catch (e) {
+      set({user: null});
+    }  
   }
 }))
 

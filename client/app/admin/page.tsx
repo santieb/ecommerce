@@ -1,6 +1,7 @@
 'use client'
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Accordion from '../../components/Accordion'
+import { redirect } from 'next/navigation';
 
 const page = () => {
 

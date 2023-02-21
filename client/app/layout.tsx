@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import NavBar from '../components/NavBar'
+import { useUserStore } from '../state/Products'
 import './globals.css'
 
 export default function RootLayout({
@@ -8,31 +9,12 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const [user , setUser] = useState({})
+  
+  const { getUser } = useUserStore()
 
   useEffect(() => {
-    const authUser = async () => {        
-      const token = localStorage.getItem('token')
-
-      if (!token) return console.log('no tiene token')
-      try {
-        const config = { 
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          }
-        }
-        const res = await fetch('http://localhost:3000/api/users/profile', config)
-        const userLogged = await res.json()
-        console.log(userLogged)
-        setUser(userLogged)
-      } catch (e) {
-        setUser({})
-      }
-    }
-    authUser()
-  }, [setUser])
-
+    getUser()
+  }, []);
   return (
     <html lang="en">
       <head>

@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import instance from '../utils/instance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useUserStore } from '../state/Products'
 
 
 const LoginModal = () => {
@@ -14,6 +15,7 @@ const LoginModal = () => {
   const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
+  const { getUser } = useUserStore()
 
   const validationSchema = yup.object().shape({
     email: 
@@ -36,12 +38,12 @@ const LoginModal = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        alert(JSON.stringify(values, null, 2));
-        const res = await instance.post('/users/login', values)
-        console.log(res)
-        localStorage.setItem('token', res.access_token);
+        const { data } = await instance.post('/users/login', values)
+        console.log(data)
+        localStorage.setItem('token', data.access_token);
         
        setOpen(false)
+       getUser()
        toast.success('Sesion iniciada correctamente !', {
         position: toast.POSITION.BOTTOM_CENTER
       });

@@ -8,12 +8,14 @@ import * as yup from 'yup'
 import instance from '../utils/instance';
 import { ToastContainer, toast } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
+import { useUserStore } from '../state/Products'
  
 const RegisterModal = () => {
   const [open, setOpen] = useState(false)
   const [error, setError] = useState(false)
 
   const cancelButtonRef = useRef(null)
+  const { getUser } = useUserStore((state) => state.user)
   
   const validationSchema = yup.object().shape({
     name: 
@@ -50,12 +52,11 @@ const RegisterModal = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        alert(JSON.stringify(values, null, 2));
-
         const res = await instance.post('/users/register', values)
         console.log(res)
         localStorage.setItem('token', res.data.access_token);
         setOpen(false)
+        getUser()
         toast.success('Cuenta creada correctamente !', {
           position: toast.POSITION.BOTTOM_CENTER
         });
