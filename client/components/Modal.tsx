@@ -61,11 +61,6 @@ export default function Modal({showModal, setShowModal, product}) {
                       <h5 className="text-2xl font-medium">${product.price}</h5>
                     </div>
                      <p className="leading-tight  text-slate-500 text-sm">
-                      I always felt like I could do anything. That’s the main
-                      thing people are controlled by! Thoughts- their perception
-                      of themselves! They're slowed down by their perception of
-                      themselves. If you're taught you can’t do anything, you
-                      won’t do anything. I was taught I could do everything.
                       {product.description}
                     </p>
                   </div>
@@ -92,7 +87,7 @@ export default function Modal({showModal, setShowModal, product}) {
                           onChange={(e) => setNotes(e.target.value)}
                           value={notes}
                           type="text"
-                          className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-orange-50 bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
+                          className="my-1 form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"id="exampleFormControlInput1"placeholder="Escribe las instrucciones que necesites"/>
                     </div>
                   </div>
                 </div>

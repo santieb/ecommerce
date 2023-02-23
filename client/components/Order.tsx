@@ -4,11 +4,12 @@ import { useCartStore } from "../state/Products";
 import { MdOutlineClose } from 'react-icons/md'
 import truncateString from '../utils/truncateString';
 import Image from 'next/image'
+import { Button } from './Button';
 
 const Order = () => {
   const cart = useCartStore((state) => state.cart)
   const removeProduct = useCartStore((state) => state.removeProduct)
-
+  const addOrder = useCartStore((state) => state.addOrder)
   const calculateTotal = cart.reduce((acu, order) => acu + order.product.price * order.amount, 0)
 
   console.log("order", cart)
@@ -39,14 +40,13 @@ const Order = () => {
             <p>{`$${calculateTotal}`}</p>
           </div>
 
-          <button
+          <Button
             type="button"
-            className="mb-2 w-full inline-block py-2.5 mt-3 bg-orange-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-orange-700 hover:shadow-lg focus:bg-orange-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-orange-800 active:shadow-lg transition duration-150 ease-in-out"
-            data-mdb-ripple="true"
-            data-mdb-ripple-color="light"
+            theme='primary'
+            onClick={addOrder}
           >
             Hacer Pedido
-          </button>
+          </Button>
         </>
           :
           <div className="flex flex-col justify-center items-center m-auto text-center">
