@@ -1,9 +1,35 @@
 version: '3.1'
 
 services:
-  ecommerce_pg:
+  api:
+    container_name: ecommerce_api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    environment:
+      PORT: 3000
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USER: uecommerce
+      DB_PASSWORD: secret1234
+      DB_NAME: ecommerce    
+    ports:
+      - 3000:3000
+    depends_on:
+      - database
+    links:
+      - database:db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run start:dev
+    networks:
+      - app-network
+  database:
     image: postgres:15.1-alpine
-    container_name: ecommerce_pg
+    container_name: ecommerce_database
     restart: always
     environment:
       POSTGRES_DB: ecommerce
@@ -13,3 +39,8 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     ports:
       - 5432:5432
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
