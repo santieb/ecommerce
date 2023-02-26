@@ -4,19 +4,19 @@ import HorizontalProductCard from "../../components/HorizontalProductCard";
 import ListCategories from "../../components/ListCategories";
 import Order from "../../components/Order";
 import ProductCard from "../../components/ProductCard";
+import api from "../../utils/instance";
 
 const fetchProducts = async () => {
-  const res =  await fetch('http://localhost:3000/api/products', {cache: 'no-store'})
-  return await res.json()
+  const res =  await api('/products')
+  return res.data
 }
 
 const fetchCategories = async () => {
-  const res =  await fetch('http://localhost:3000/api/categories', {cache: 'no-store'})
-  return await res.json()
+  const res =  await api('/categories')
+  return res.data
 }
 
 async function Home() {
-
   const products = await fetchProducts()
   const categories = await fetchCategories()
  

@@ -1,5 +1,5 @@
 import zustand, { create } from 'zustand'
-import axios from 'axios'
+import api from '../utils/instance';
 
 interface UserStore {
   user: {};
@@ -18,13 +18,11 @@ export const useUserStore = create((set) => ({
     if (!token) return console.log('no tiene token')
 
     try {
-      const config = { 
+      const { data } = await api('/users/profile', { 
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${token}`
         }
-      }
-      const { data } = await axios('http://localhost:3000/api/users/profile', config)
+      })
       console.log(data, 'zustand')
       set({user: data});
     } catch (e) {
