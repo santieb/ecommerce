@@ -35,7 +35,7 @@ const Order = () => {
           ))}
 
           <div className='text-xl flex font-medium py-4 justify-between'>
-            <p>Total</p>
+            <p>Totalaaaaa</p>
             <p>{`$${calculateTotal}`}</p>
           </div>
 
