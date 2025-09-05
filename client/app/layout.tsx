@@ -19,6 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>Ecommerce</title>
+        <script src="https://sdk.mercadopago.com/js/v2" />
       </head>
       <body className='bg-orange-50'>
       <NavBar/>

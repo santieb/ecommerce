@@ -21,11 +21,11 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "orm:init": "typeorm-ts-node-esm -d ./src/config/data.source.ts",
-    "m:create": "set NODE_ENV=develop&& npm run orm:init migration:create",
-    "m:gen": "set NODE_ENV=develop&& npm run orm:init migration:generate",
-    "m:run": "set NODE_ENV=develop&& npm run orm:init migration:run",
-    "m:gen:linux": "export NODE_ENV=develop && npm run orm:init migration:generate",
-    "m:run:linux": "export NODE_ENV=develop && npm run orm:init migration:run"
+    "m:gen": "typeorm-ts-node-commonjs migration:generate migrations/Init -d src/config/data.source.ts",
+    "m:create:seed": "typeorm-ts-node-commonjs migration:create migrations/Seed -d src/config/data.source.ts",
+    "m:run": "typeorm-ts-node-commonjs migration:run -d src/config/data.source.ts",
+    "m:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/data.source.ts",
+    "m:show": "typeorm-ts-node-commonjs migration:show -d src/config/data.source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
@@ -39,6 +39,7 @@
     "bcrypt": "^5.1.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "mercadopago": "^2.8.0",
     "morgan": "^1.10.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
