@@ -1,3 +1,4 @@
+// src/orders/orders.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsEntity } from 'src/products/entities/products.entity';
@@ -16,5 +17,6 @@ import { OrdersService } from './service/orders.service';
   ],
   controllers: [OrdersController],
   providers: [OrdersService],
+  exports: [OrdersService],
 })
 export class OrdersModule {}

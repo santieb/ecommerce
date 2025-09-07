@@ -1,13 +1,15 @@
-// src/payments/payments.controller.ts
-import { Controller, Post, Body } from '@nestjs/common';
+// src/payments/controller/payments.controller.ts
+import { Controller, Post, Param, UseGuards } from '@nestjs/common';
 import { PaymentsService } from '../service/payments.service';
+import { JwtAuthGuard } from 'src/users/helpers/jwt-auth.guard';
 
 @Controller('payments')
 export class PaymentsController {
   constructor(private readonly paymentsService: PaymentsService) {}
 
-  @Post()
-  async createPayment(@Body() body: { products: any[] }) {
-    return this.paymentsService.createPreference(body.products);
+  @UseGuards(JwtAuthGuard)
+  @Post('from-order/:id')
+  createFromOrder(@Param('id') id: string) {
+    return this.paymentsService.createPreferenceFromOrder(id); // ✅ string
   }
 }

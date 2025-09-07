@@ -1,8 +1,10 @@
-import { Controller, Post, UseGuards, Body, Req, Get } from '@nestjs/common';
-import { RolesGuard } from 'src/users/helpers/role.guard';
-import { JwtAuthGuard } from '../../users/helpers/jwt-auth.guard';
-import { AddOrderDto } from '../dto/addOrder.dto';
+// src/orders/controller/orders.controller.ts (agregar endpoint)
+import { Body, Controller, Post, UseGuards, Req, Get, Patch, Param } from '@nestjs/common';
 import { OrdersService } from '../service/orders.service';
+import { JwtAuthGuard } from 'src/users/helpers/jwt-auth.guard';
+import { RolesGuard } from 'src/users/helpers/role.guard';
+import { AddOrderDto } from '../dto/addOrder.dto';
+import { OrderStatus } from '../entities/orders.entity';
 
 @Controller('orders')
 export class OrdersController {
@@ -12,6 +14,12 @@ export class OrdersController {
   @Post()
   addOrder(@Body() newOrder: AddOrderDto, @Req() req) {
     return this.ordersService.addOrder(newOrder, req.user);
+  }
+
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Patch(':id/status')
+  setStatus(@Param('id') id: string, @Body() body: { status: OrderStatus }) {
+    return this.ordersService.updateStatus(id, body.status);
   }
 
   @UseGuards(JwtAuthGuard)
