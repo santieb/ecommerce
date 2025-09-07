@@ -7,11 +7,11 @@ import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
 import { OrdersModule } from './orders/orders.module';
 import { AppController } from './app.controller';
-
+import { PaymentsModule } from './payments/payments.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.${process.env.NODE_ENV}.env`,
+      envFilePath: `.env`,
       isGlobal: true,
     }),
     TypeOrmModule.forRoot({ ...DataSourceConfig }),
@@ -19,6 +19,7 @@ import { AppController } from './app.controller';
     ProductsModule,
     CategoriesModule,
     OrdersModule,
+    PaymentsModule,
   ],
   providers: [],
   controllers: [AppController],
