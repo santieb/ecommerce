@@ -16,7 +16,7 @@ export class OrdersController {
     return this.ordersService.addOrder(newOrder, req.user);
   }
 
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch(':id/status')
   setStatus(@Param('id') id: string, @Body() body: { status: OrderStatus }) {
     return this.ordersService.updateStatus(id, body.status);
