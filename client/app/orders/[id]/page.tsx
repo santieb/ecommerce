@@ -19,30 +19,17 @@ const getToken = () => (typeof window !== 'undefined' ? localStorage.getItem('to
 function buildFetchOpts(token: string | null) {
   const headers: Record<string, string> = { 'ngrok-skip-browser-warning': '1' };
   if (token) headers.Authorization = `Bearer ${token}`;
-
   let withCreds = false;
   if (typeof window !== 'undefined') {
     try {
       const apiUrl = API.startsWith('http') ? new URL(API) : new URL(API, window.location.origin);
       withCreds = apiUrl.origin === window.location.origin;
-    } catch {
-      withCreds = false;
-    }
+    } catch { withCreds = false; }
   }
-
-  return {
-    headers,
-    ...(withCreds ? { credentials: 'include' as const } : {}),
-    cache: 'no-store' as const,
-  };
+  return { headers, ...(withCreds ? { credentials: 'include' as const } : {}), cache: 'no-store' as const };
 }
 
-type OrderDetail = {
-  id: string | number;
-  nameProduct: string;
-  amount: number;
-  subtotal: number;
-};
+type OrderDetail = { id: string | number; nameProduct: string; amount: number; subtotal: number; };
 type OrderDto = {
   id: string | number;
   status: OrderStatus;
@@ -52,18 +39,65 @@ type OrderDto = {
   preferenceId?: string | null;
 };
 
+/* ───────── helpers (solo se usan dentro de efectos) ───────── */
+const onNgrok = () => {
+  const h = window.location.hostname;
+  return h.includes('ngrok'); // o 'ngrok-free.app'
+};
+
+const redirectToLocalSamePath = () => {
+  if (window.location.host === 'localhost:3001') return; // evitar loop
+  const { pathname, search, hash } = window.location;
+  window.location.replace(`http://localhost:3001${pathname}${search}${hash}`);
+};
+
+const hasMpParams = () => {
+  const qs = new URLSearchParams(window.location.search);
+  const keys = [
+    'status','collection_id','collection_status','payment_id','payment_status',
+    'payment_type','preference_id','merchant_order_id','external_reference',
+    'processing_mode','merchant_account_id',
+  ];
+  return keys.some((k) => qs.has(k));
+};
+
+const getMpStatus = (): string | null => {
+  return new URLSearchParams(window.location.search).get('status');
+};
+
+const clearUrlSearch = () => {
+  const url = new URL(window.location.href);
+  url.search = '';
+  window.history.replaceState({}, '', url.toString());
+};
+/* ──────────────────────────────────────────────────────────── */
+
 export default function OrderDetailPage({ params }: { params: { id: string } }) {
   const [order, setOrder] = useState<OrderDto | null>(null);
   const [loading, setLoading] = useState(false);
   const [patching, setPatching] = useState(false);
+
+  // 🔸 Para evitar hydration mismatch:
+  // - En SSR `mounted` es false → mostramos overlay.
+  // - En cliente, después del primer efecto, `mounted` pasa a true y ya podemos usar window.
+  const [mounted, setMounted] = useState(false);
+
+  // Overlay también cuando estamos procesando retorno de MP / cargando orden inicial
+  const [blocking, setBlocking] = useState(false);
+
   const poll = useRef<number | null>(null);
   const patchedOnce = useRef(false);
 
   const patchStatusFromQueryParams = async () => {
-    if (typeof window === 'undefined' || patchedOnce.current) return;
-    const qs = new URLSearchParams(window.location.search);
-    const mpStatus = qs.get('status');
-    if (!mpStatus) return;
+    if (patchedOnce.current) return;
+
+    const mpStatus = getMpStatus();
+    if (!mpStatus) {
+      // si vinimos de MP con otros params, igual limpiamos la URL
+      if (hasMpParams()) clearUrlSearch();
+      patchedOnce.current = true;
+      return;
+    }
 
     const map: Record<string, OrderStatus | undefined> = {
       approved: 'paid',
@@ -71,10 +105,9 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
       pending: undefined,
     };
     const next = map[mpStatus];
+
     if (!next) {
-      const url = new URL(window.location.href);
-      url.search = '';
-      window.history.replaceState({}, '', url.toString());
+      clearUrlSearch();
       patchedOnce.current = true;
       return;
     }
@@ -91,12 +124,13 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
         },
         body: JSON.stringify({ status: next }),
       });
-    } catch {}
-    const url = new URL(window.location.href);
-    url.search = '';
-    window.history.replaceState({}, '', url.toString());
-    patchedOnce.current = true;
-    setPatching(false);
+    } catch {
+      // aunque falle, limpiamos igual
+    } finally {
+      clearUrlSearch();
+      setPatching(false);
+      patchedOnce.current = true;
+    }
   };
 
   const load = async () => {
@@ -105,10 +139,7 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
       const token = getToken();
       const opts = buildFetchOpts(token);
       const res = await fetch(`${API}/orders/myorders?ts=${Date.now()}`, opts);
-      if (!res.ok) {
-        setOrder(null);
-        return;
-      }
+      if (!res.ok) { setOrder(null); return; }
       const list = (await res.json()) as OrderDto[];
       const current = list.find((o) => String(o.id) === String(params.id)) ?? null;
       setOrder(current);
@@ -120,41 +151,46 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
   };
 
   useEffect(() => {
+    // Ahora sí es seguro usar window
+    setMounted(true);
+
+    // 1) Redirección inmediata si estamos en ngrok
+    if (onNgrok()) {
+      redirectToLocalSamePath();
+      return; // importantísimo: no seguimos ejecutando nada más en esta pestaña
+    }
+
+    // 2) Si no hubo redirección, evaluamos si la URL viene "larga" (MP)
+    const cameFromMp = hasMpParams();
+    setBlocking(cameFromMp); // overlay visible ya mismo si viene de MP
+
     (async () => {
-      await patchStatusFromQueryParams();
-      await load();
+      if (cameFromMp) {
+        await patchStatusFromQueryParams(); // limpia/parcha si aplica
+      }
+      await load(); // traemos la orden
+      setBlocking(false); // mostramos todo
     })();
 
-    const startPolling = () => {
+    // Polling liviano
+    const start = () => {
       if (poll.current) return;
       poll.current = window.setInterval(() => {
         if (document.visibilityState === 'visible') load();
       }, 5000);
     };
-    const stopPolling = () => {
-      if (poll.current) {
-        window.clearInterval(poll.current);
-        poll.current = null;
-      }
-    };
+    const stop = () => { if (poll.current) { window.clearInterval(poll.current); poll.current = null; } };
 
-    startPolling();
-    const vis = () => (document.visibilityState === 'visible' ? startPolling() : stopPolling());
+    start();
+    const vis = () => (document.visibilityState === 'visible' ? start() : stop());
     document.addEventListener('visibilitychange', vis);
-
-    return () => {
-      stopPolling();
-      document.removeEventListener('visibilitychange', vis);
-    };
+    return () => { stop(); document.removeEventListener('visibilitychange', vis); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.id]);
 
   useEffect(() => {
     if (order?.status === 'delivered') {
-      if (poll.current) {
-        window.clearInterval(poll.current);
-        poll.current = null;
-      }
+      if (poll.current) { window.clearInterval(poll.current); poll.current = null; }
     }
   }, [order?.status]);
 
@@ -164,7 +200,19 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
     0;
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className="max-w-3xl mx-auto p-6 relative" suppressHydrationWarning>
+      {/* Overlay spinner:
+          - Antes de hidratar (mounted=false) para evitar mismatch
+          - Mientras procesamos retorno de MP / carga inicial (blocking=true) */}
+      {(!mounted || blocking) && (
+        <div className="absolute inset-0 z-50 bg-white/80 backdrop-blur-sm flex items-center justify-center">
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-10 w-10 border-4 border-gray-300 border-t-gray-600 rounded-full animate-spin" />
+            <p className="text-sm text-gray-700">Procesando el pago…</p>
+          </div>
+        </div>
+      )}
+
       <h1 className="text-2xl font-semibold">Pedido #{params.id}</h1>
 
       <p className="text-gray-600 mt-1">
@@ -179,15 +227,14 @@ export default function OrderDetailPage({ params }: { params: { id: string } }) 
 
       <div className="mt-6 grid grid-cols-4 gap-3">
         {STEPS.map((step, idx) => {
-          const activeIdx = order?.status ? Math.max(0, STEPS.indexOf(order.status as any)) : 0;
+          const found = order ? STEPS.indexOf(order.status) : -1;
+          const activeIdx = found >= 0 ? found : 0;
           const active = idx <= activeIdx;
           return (
             <div key={step} className="flex flex-col items-center">
-              <div
-                className={`h-10 w-10 rounded-full flex items-center justify-center border ${
-                  active ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-400 border-gray-300'
-                }`}
-              >
+              <div className={`h-10 w-10 rounded-full flex items-center justify-center border ${
+                active ? 'bg-green-600 text-white border-green-600' : 'bg-white text-gray-400 border-gray-300'
+              }`}>
                 {idx + 1}
               </div>
               <div className={`mt-2 text-xs ${active ? 'text-green-700 font-medium' : 'text-gray-500'}`}>
