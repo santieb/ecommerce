@@ -1,4 +1,3 @@
-// src/orders/service/orders.service.ts
 import {
   HttpException,
   HttpStatus,
@@ -6,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, In } from 'typeorm'; // 👈 agrega In si usás la variante 2 pasos
+import { Repository } from 'typeorm';
 
 import { ProductsEntity } from 'src/products/entities/products.entity';
 import { AddOrderDto } from '../dto/addOrder.dto';
@@ -32,7 +31,6 @@ export class OrdersService {
     });
   }
 
-  // ✅ Versión simple y eficiente: trae todo en una sola consulta
   async getMyOrders(user: any) {
     const userId = user?.id ?? user?.sub ?? user?.userId;
     if (!userId) {
@@ -41,7 +39,7 @@ export class OrdersService {
 
     return this.orderRepository.find({
       where: { user: { id: String(userId) } },
-      relations: ['orderDetails', 'orderDetails.product'], // agrega 'user' si querés
+      relations: ['orderDetails', 'orderDetails.product'],
       order: { createdAt: 'DESC' } as any,
     });
   }
@@ -65,7 +63,7 @@ export class OrdersService {
     let newOrder = this.orderRepository.create();
     newOrder.Total = total;
     newOrder.user = ({ id: String(userId) } as unknown) as any;
-    newOrder.status = 'pending_payment';
+    newOrder.status = 'paid';
     newOrder = await this.orderRepository.save(newOrder);
 
     const createOrderDetail = async ({

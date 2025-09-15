@@ -10,11 +10,9 @@ export default function Success() {
     const status = qs.get('status') || '';
     const preference_id = qs.get('preference_id') || '';
 
-    // opcional: notificar backend para guardar paymentId/estado
     fetch(`${API}/orders/callback?payment_id=${paymentId}&status=${status}&external_reference=${orderId}&preference_id=${preference_id}`)
       .catch(()=>{})
       .finally(() => {
-        // redirigimos al detalle
         if (orderId) window.location.replace(`/orders/${orderId}`);
         else window.location.replace('/orders');
       });

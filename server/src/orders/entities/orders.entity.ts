@@ -9,7 +9,6 @@ export type OrderStatus =
   | 'paid'
   | 'payment_failed'
   | 'in_preparation'
-  | 'ready'
   | 'on_the_way'
   | 'delivered';
 
